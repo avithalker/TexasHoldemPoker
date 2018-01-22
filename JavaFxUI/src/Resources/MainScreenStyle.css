@@ -1,0 +1,9 @@
+#GameMainLayout{-fx-background-image: url("GameBackground2.jpg");
+    -fx-background-repeat: no-repeat;
+    }
+
+#TableLayout{-fx-background-image: url("table2.png");
+-fx-background-repeat: no-repeat;
+-fx-background-position: center;
+}
+

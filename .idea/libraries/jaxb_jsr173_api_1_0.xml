@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jaxb:jsr173_api:1.0" type="repository">
+    <properties maven-id="jaxb:jsr173_api:1.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/jaxb/jsr173_api/1.0/jsr173_api-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

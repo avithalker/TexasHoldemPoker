@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="jaxb:activation:1.0.2" type="repository">
+    <properties maven-id="jaxb:activation:1.0.2" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/jaxb/activation/1.0.2/activation-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
