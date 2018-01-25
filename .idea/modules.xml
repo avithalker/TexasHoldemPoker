@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/ConsoleUI/ConsoleUI.iml" filepath="$PROJECT_DIR$/ConsoleUI/ConsoleUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/JavaFxUI/JavaFxUI.iml" filepath="$PROJECT_DIR$/JavaFxUI/JavaFxUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/PokerEngine/PokerEngine.iml" filepath="$PROJECT_DIR$/PokerEngine/PokerEngine.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WebPoker/WebPoker.iml" filepath="$PROJECT_DIR$/WebPoker/WebPoker.iml" />
     </modules>
   </component>
 </project>
