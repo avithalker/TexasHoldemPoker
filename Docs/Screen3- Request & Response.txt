@@ -1,0 +1,101 @@
+1) MakePokerAction Request- POST action
+
+{
+"Action": 1-Bet 2-Check 3-Raise 4-Fold,
+"value": xx (for Bet and Raise only)
+}
+
+2) MakePokerAction Response
+
+{
+"isSuccess": true/false,
+"msgError": "xxx" (if isSuccess=true, empty)
+}
+
+3) BuyTokens Request- POST action
+
+empty request
+
+4) BuyTokens Response
+
+{}
+
+5) IsMyTurn Request- GET action
+
+empty request
+
+6) IsMyTurn Response
+
+{
+"Result": true/false
+}
+
+7) IsHandDone Request- GET action
+
+empty request
+
+8) IsHandDone Response
+
+{
+"Result": true/false
+}
+
+9) GetPlayersInfo Request- Get action
+
+empty request
+
+10) GetPlayersInfo Response
+
+{
+	[
+		{
+			"playerId": xxx,
+			"playerName": "xxx",
+			"playerTitle": "xxx",
+			"playerType": "xxx",
+			"tokens": xxx,
+			"currentBet": xxx,
+			"totalBuys": xxx,
+			"totalWins": xxx,
+			"totalHandsPlayed": xxx,
+			"playerCards": ["xx","yy"],
+			"lastAction": "xxx"
+		}
+	]
+}
+
+11) GetGameInfo Request- GET action
+
+empty request
+
+12) GetGameInfo Response
+
+{
+"buyValue": xxx,
+"handsCount": xxx,
+"totalPlayedHands": xxx,
+"bigBlindValue": xxx,
+"smallBlindValue": xxx,
+"isBlindFixed": true/false,
+"blindAdditions": xxx,
+"totalTokens": xxx
+}
+
+13) GetTableInfo Request- GET action
+
+empty request
+
+14) GetTableInfo Response
+
+{
+"tableCards": ["xx","yy"...],
+"pot": xxx
+}
+
+15) ExistGame Request- POST action
+
+empty request
+
+16) ExitGame Response
+
+{}
