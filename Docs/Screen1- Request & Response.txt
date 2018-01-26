@@ -1,0 +1,12 @@
+1) Sign in request
+
+{ 
+"playerName": "xxx", 
+"isHuman": true/false, 
+"isComputer": true/false 
+}
+
+2) Sign in response
+
+{}
+
