@@ -1,4 +1,4 @@
-1) Sign in request
+1) Sign in request- POST action
 
 { 
 "playerName": "xxx", 

@@ -1,0 +1,54 @@
+1) GetOnlinePlayers request- GET action
+
+empty request
+
+2) GetOnlinePlayers response
+
+{
+"onlinePlayers": ["xxx","yyy","zzz"]
+}
+
+3) GetGameRooms request- GET action
+
+empty request
+
+4) GetGameRooms response
+
+{
+"gameName": "xxx",
+"Owner": "xxx",
+"hands count": "xxx",
+"buySize": "xxx",
+"blind": "xxx",
+"players": "xxx/yyy",
+"gameStatus": "xxx"
+}
+
+5) CreateGame request- POST action
+
+{}
+
+6) CreateGame response
+
+{}
+
+7) JoinGame request- Post action
+
+{
+"gameName": "xxx"
+}
+
+8) JoinGame response
+
+{}
+
+9) Logout request- POST action
+
+empty request
+
+10) Logout response
+
+{}
+
+
+
