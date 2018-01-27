@@ -23,6 +23,8 @@ public class GameSettings {
     private int blindAddition;
     private int blindMaxTotalRound;
     private int numberOfPlayers;
+    private int totalPlayers;
+    private String gameTitle;
     private List<Player> definedPlayers;
     private ArrayList<PlayerRegistration> fixedPlayersRegistration;
 
@@ -228,4 +230,19 @@ public class GameSettings {
     }
 
 
+    public int getTotalPlayers() {
+        return totalPlayers;
+    }
+
+    public void setTotalPlayers(int totalPlayers) {
+        this.totalPlayers = totalPlayers;
+    }
+
+    public String getGameTitle() {
+        return gameTitle;
+    }
+
+    public void setGameTitle(String gameTitle) {
+        this.gameTitle = gameTitle;
+    }
 }
