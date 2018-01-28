@@ -6,6 +6,11 @@
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="WebPoker" />
+          <element id="module-output" name="PokerEngine" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="gson-2.1" />
+          <element id="library" level="project" name="HandRank" />
         </element>
       </element>
     </root>
