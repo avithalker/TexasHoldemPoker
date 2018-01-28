@@ -1,0 +1,38 @@
+
+body {
+    background-image: url("../Pages/TexasHoldemPokerHomePage.jpg");
+    background-color: #cccccc;
+    background-repeat:no-repeat;
+    background-size: cover;
+}
+
+
+#gametitle {
+
+    font-family: "Times New Roman",Times,Serif;
+    font-size:80px;
+    font-weight: bold;
+    text-align: center;
+    color: gold;
+}
+
+#logindetails{
+    position: absolute;
+    top:0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    margin: auto;
+    background-color:black;
+    font-family: "Times New Roman",Times,Serif;
+    font-size:20px;
+    font-weight: bold;
+    text-align: center;
+    border-style: dotted;
+    color: gold;
+    width: 300px;
+    height: 200px;
+    padding: 50px;
+
+}
