@@ -172,6 +172,10 @@ public class GameManager {
         this.gameSettings = gameSettings;
     }
 
+    public GameSettings getGameSettings(){
+        return gameSettings;
+    }
+
     public LoadSettingsTask getAsyncSettingLoaderObject(){
         LoadSettingsTask loadSettingsTask = new LoadSettingsTask(this,gameStateProcessor);
         return loadSettingsTask;
@@ -195,6 +199,38 @@ public class GameManager {
 
         try {
             GameDescriptor settingsDescriptor = XmlLoader.LoadGameSettings(settingsFilePath);
+            GameSettings gameSettings = convertDescriptorToSettings(settingsDescriptor);
+            ActionResult result = gameSettings.isGeneralSettingsValid();
+
+            if(result.isSucceed()){
+                this.gameSettings = gameSettings;
+                gameStateProcessor.moveToNextState();
+                if(gameSettings.getGameType() == GameTypes.MultiPlayer)
+                    result = registerPlayers(gameSettings.getFixedPlayersRegistration());
+            }
+
+            return result;
+        }
+        catch (JAXBException e)
+        {
+            return new ActionResult(false,"!!! Error has occurred during the settings loading. please check the file !!!");
+        }
+        catch (Exception e){
+            return new ActionResult(false,"Error has occurred during the settings loading. seems like some fields are missing in the file!");
+        }
+
+    }
+
+    public ActionResult loadGameSettingsFromString(String settingContent){
+        if(gameStateProcessor.isCurrStateBiggerThen(GameStates.PlayerRegisterd)){
+            return new ActionResult(false,"!!! Loading setting is not a valid operation in this part of the game !!!");
+        }
+
+        if(gameStateProcessor.isCurrentSateEquals(GameStates.PlayerRegisterd)) // if we loaded old settings before
+            gameStateProcessor.ForceNextState(GameStates.None);
+
+        try {
+            GameDescriptor settingsDescriptor = XmlLoader.LoadGameSettingsFromStr(settingContent);
             GameSettings gameSettings = convertDescriptorToSettings(settingsDescriptor);
             ActionResult result = gameSettings.isGeneralSettingsValid();
 
@@ -656,7 +692,9 @@ public class GameManager {
             gameSettings.setBlindAddition(descriptor.getStructure().getBlindes().getAdditions().intValue());
             gameSettings.setBlindMaxTotalRound(descriptor.getStructure().getBlindes().getMaxTotalRounds().intValue());
         }
-        gameSettings.setDefinedPlayers(descriptor.getPlayers().getPlayer());
+        gameSettings.setTotalPlayers(descriptor.getDynamicPlayers().getTotalPlayers());
+        gameSettings.setGameTitle(descriptor.getDynamicPlayers().getGameTitle());
+        ///gameSettings.setDefinedPlayers(descriptor.getPlayers().getPlayer());
 
         return gameSettings;
     }

@@ -5,7 +5,7 @@ empty request
 2) GetOnlinePlayers response
 
 {
-"onlinePlayers": ["xxx","yyy","zzz"]
+ ["xxx","yyy","zzz"]
 }
 
 3) GetGameRooms request- GET action
@@ -15,22 +15,35 @@ empty request
 4) GetGameRooms response
 
 {
-"gameName": "xxx",
-"Owner": "xxx",
-"hands count": "xxx",
-"buySize": "xxx",
-"blind": "xxx",
-"players": "xxx/yyy",
-"gameStatus": "xxx"
+	[
+		{
+			"gameTitle": "xxx",
+			"Owner": "xxx",
+			"handsCount": xxx,
+			"buySize": xxx,
+			"smallBlind": xxx,
+			"bigBlind": xxx,
+			"isBlindFixed": true/false,
+			"blindAddition": xxx,
+			"registeredPlayers": xxx,
+			"maxPlayers": xxx,
+			"gameStatus": "xxx"
+		}
+	]
 }
 
 5) CreateGame request- POST action
 
-{}
+{
+"settingsContent":"xxx"
+}
 
 6) CreateGame response
 
-{}
+{
+"isSucceed":true/false,
+"msgError":"xxx"
+}
 
 7) JoinGame request- Post action
 
