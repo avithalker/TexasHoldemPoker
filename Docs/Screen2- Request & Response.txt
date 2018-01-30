@@ -61,7 +61,7 @@ empty request
 
 10) Logout response
 
-{}
+redirect response (nothing to implement)
 
 
 
