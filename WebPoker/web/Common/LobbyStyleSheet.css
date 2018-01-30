@@ -1,0 +1,63 @@
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 1000px;
+}
+
+
+
+body{
+
+    background-image: url("../Pages/LobbyBackground.jpg");
+    background-color: #cccccc;
+    background-repeat:no-repeat;
+    background-size: cover;
+
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color:gold;
+}
+
+ol,il{
+    color: gold;
+}
+
+
+#pagetitle{
+
+    text-align: center;
+    background-color: beige;
+
+
+}
+
+#logoutzone{
+
+    text-align: right;
+}
+
+#container{
+    border: 1px solid grey;
+}
+
+#LeftPlayersTable{
+    float: left;
+    max-width: 100%;
+    margin: 0;
+    padding: 1em;
+    color: gold;
+
+
+}
+
+#CenterGamesTable{
+    float: bottom;
+    max-width: 160px;
+    margin: 0;
+    padding: 1em;
+    color:gold;
+}
