@@ -11,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static ServletUtils.SessionUtils.getUsername;
-
 
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/Lobby/Logout"})
 public class LogoutServlet extends HttpServlet {
@@ -28,6 +26,7 @@ public class LogoutServlet extends HttpServlet {
         {
             UsersManager usersManager = ServletContextUtils.getServerUserManager(getServletContext());
             usersManager.removeUser(userName);
+            SessionUtils.clearSession(req);
         }
         resp.sendRedirect(HOME_PAGE_URL);
     }

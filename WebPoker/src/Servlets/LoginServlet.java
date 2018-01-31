@@ -14,6 +14,9 @@ import java.io.IOException;
 @WebServlet(name = "LoginServlet", urlPatterns = {"/Login"})
 public class LoginServlet extends HttpServlet {
 
+    private final String ERROR_USERNAME_EXIST_PAGE_URL ="../Pages/ErrorUserAlreadyExistPage.html";
+    private final String LOBBY_PAGE_URL ="../Pages/LobbyPage.html";
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
@@ -25,7 +28,8 @@ public class LoginServlet extends HttpServlet {
             PlayerSignInDto playerSignInDto = getPlayerSignInDtoFromRequest(req);
             if(usersManager.isExist(playerSignInDto.getPlayerName())){
                 // user name is taken.
-                //todo: redirect to relevant page
+                resp.sendRedirect(ERROR_USERNAME_EXIST_PAGE_URL);
+                return;
             }
             else
             {
@@ -33,10 +37,7 @@ public class LoginServlet extends HttpServlet {
               SessionUtils.initNewSession(req,playerSignInDto.getPlayerName());
             }
         }
-        else // user already exist
-        {
-            // redirect to lobby
-        }
+        resp.sendRedirect(LOBBY_PAGE_URL);
     }
 
     private PlayerSignInDto getPlayerSignInDtoFromRequest(HttpServletRequest req)
