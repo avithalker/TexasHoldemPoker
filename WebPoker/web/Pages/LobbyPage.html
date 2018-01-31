@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Texas Holde'm Poker Lobby</title>
+    <script src="./jquery-2.0.3.min.js"></script>
+    <script src="./LobbyPage.js"></script>
     <link rel="stylesheet" href="../Common/LobbyStyleSheet.css">
+
 </head>
 
 <body>
@@ -14,7 +17,11 @@
         <h1>Texas Holde'm Poker Lobby</h1>
         <div id="logoutzone">
             <h1 id="playerName"></h1>
-            <input type="button" value="Logout">
+            <form method="POST" action=Logout">
+                <!--todo check the action value in this form and ask if we need to do here a static request or an ajax...-->
+                <input type="submit"  value="Logout">
+            </form>
+
         </div>
     </header>
 
@@ -23,7 +30,7 @@
 
     <div id="LeftPlayersTable">
         <h2>Online Players</h2>
-        <ul>
+        <ul id="activeplayerslist">
             <li>Sahar</li>
             <li>Dolev</li>
             <li>Avi</li>
@@ -34,7 +41,7 @@
     <pane id="CenterGamesTable">
         <h2>Online Games</h2>
         <input type="button" value="+">
-        <table>
+        <table id="GameRoomsTable">
             <tr>
                 <th>Game Name</th>
                 <th>Owner</th>
@@ -49,8 +56,20 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td><table class="blinds">
+                    <tr>
+                        <th>Big Blind</th>
+                        <th>Small Blind</th>
+                        <th>Blind Fixed</th>
+                        <th>blindAddition</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -59,8 +78,20 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td><table class="blinds">
+                    <tr>
+                        <th>Big Blind</th>
+                        <th>Small Blind</th>
+                        <th>Blind Fixed</th>
+                        <th>blindAddition</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -69,8 +100,20 @@
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td><table class="blinds">
+                    <tr>
+                        <th>Big Blind</th>
+                        <th>Small Blind</th>
+                        <th>Blind Fixed</th>
+                        <th>blindAddition</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table></td>
                 <td></td>
                 <td></td>
             </tr>

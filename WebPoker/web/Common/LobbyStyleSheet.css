@@ -22,6 +22,11 @@ td, th {
     color:gold;
 }
 
+table.blinds{
+    width: 100%;
+    font-size: small;
+}
+
 ol,il{
     color: gold;
 }
