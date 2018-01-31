@@ -1,6 +1,6 @@
 
-var ONLINE_PLAYERS ="/Lobby/OnlineUsers";
-var ONLINE_GAME_ROOMS= "blabla" //todo AVI: insert the url for the gamerooms servlet.
+var ONLINE_PLAYERS ="../Lobby/OnlineUsers";
+var ONLINE_GAME_ROOMS= "../Lobby/gameRooms"
 var refreshRate=2000;
 
 

@@ -57,4 +57,8 @@ public class GameRoomDto {
     public void setGameStatus(String gameStatus) {
         this.gameStatus = gameStatus;
     }
+
+    public String getGameTitle() {
+        return gameTitle;
+    }
 }
