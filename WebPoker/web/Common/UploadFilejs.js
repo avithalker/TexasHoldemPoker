@@ -1,6 +1,6 @@
 $(function() { // onload
 
-    $("#uploadForm").submit(function() {
+    $("#uploadForm").submit(function () {
 
         var file1 = this[0].files[0];
         var formData = new FormData();
@@ -19,13 +19,12 @@ $(function() { // onload
                 $("#result").text("Failed to get result from server " + e);
             },
             success: function (r) {
-                var obj=JSON.parse(r);
-                if(obj.isSucceed==true) {
+                var obj = JSON.parse(r);
+                if (obj.isSucceed == true) {
                     $("#result").append("<p>Upload Succeeded!!</p>");
                 }
-                else
-                {
-                    $("#result").append("<p>"+msgError+"</p>");
+                else {
+                    $("#result").append("<p>" + msgError + "</p>");
 
                 }
 
@@ -39,4 +38,5 @@ $(function() { // onload
         return false;
 
 
-    }
+    });
+})

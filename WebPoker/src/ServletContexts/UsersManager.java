@@ -39,6 +39,10 @@ public class UsersManager {
         return userList;
     }
 
+    public synchronized PlayerSignInDto getUser(String playerName){
+        return onlineUsers.getOrDefault(playerName,null);
+    }
+
     public synchronized int getUsersCount(){
         return onlineUsers.size();
     }
