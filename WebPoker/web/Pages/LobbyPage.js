@@ -9,10 +9,10 @@ var refreshRate=2000;
 function RefreshActivePlayersList(activeplayers)
 {
     //clear all active players list
-    $("activeplayerslist").empty();
+    $("#activeplayerslist").empty();
 
     //rebuild
-    $.each(activeplayers || [],function(username){
+    $.each(activeplayers || [],function(index,username){
         $('<li>'+username+'</li>').appendTo($("#activeplayerslist"));
     });
 }
@@ -21,7 +21,7 @@ function RefreshActivePlayersList(activeplayers)
 function RefreshGameRooms(GameRooms)
 {
     //clear
-    $("GameRoomsTable").empty();
+    $("#GameRoomsTable").empty();
 
     //rebuild
     $.each(GameRooms ||[],function (gameroom){
@@ -90,6 +90,11 @@ $(function() {
 
     setInterval(ajaxActivePlayersList, refreshRate);
     setInterval(ajaxRefreshGameRooms,refreshRate);
+    $("#newgame").click(function(){
+        window.location.href="./UploadFilePage.html";
+
+    });
+
 
 });
 

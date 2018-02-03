@@ -1,0 +1,16 @@
+body{
+
+    background-image: url("../Pages/LobbyBackground.jpg");
+    background-color: #cccccc;
+    background-repeat:no-repeat;
+    background-size: cover;
+    color:gold;
+
+}
+
+#fileselection{
+
+    text-align: center;
+    vertical-align: middle;
+
+}
