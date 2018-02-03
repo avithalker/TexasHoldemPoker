@@ -19,7 +19,7 @@ $(function() { // onload
                 $("#result").text("Failed to get result from server " + e);
             },
             success: function (r) {
-                console.log("js upload working!!");
+
                 var obj = JSON.parse(r);
                 if (obj.isSucceed == true) {
                     $("#result").append("<p>Upload Succeeded!!</p>");
@@ -39,5 +39,7 @@ $(function() { // onload
         return false;
 
 
-    })
-}
+
+    });
+});
+

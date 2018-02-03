@@ -4,6 +4,9 @@ import Business.GameManager;
 import Business.GameSettings;
 import Common.ActionResult;
 import Common.GlobalDefines.RoomStatuses;
+import Common.PlayerUtilities.GameGeneralInfo;
+import Common.gameExceptions.InvalidOperationException;
+import PokerDtos.GameGeneralInfoDto;
 import PokerDtos.GameRoomDto;
 import PokerDtos.PlayerSignInDto;
 
@@ -52,6 +55,22 @@ public class GameRoom {
         roomDetails.setMaxPlayers(settings.getTotalPlayers());
 
         return  roomDetails;
+    }
+
+    public GameGeneralInfoDto getGameGeneralInfo() throws InvalidOperationException{
+        GameGeneralInfoDto gameGeneralInfoDto = new GameGeneralInfoDto();
+        GameGeneralInfo gameGeneralInfo = gameManager.getGameGeneralInfo();
+
+        gameGeneralInfoDto.setBigBlindValue(gameGeneralInfo.getBigBlindValue());
+        gameGeneralInfoDto.setBlindAddition(gameGeneralInfo.getBlindAddition());
+        gameGeneralInfoDto.setBlindFixed(gameGeneralInfo.isBlindFixed());
+        gameGeneralInfoDto.setBuyValue(gameGeneralInfo.getBuyValue());
+        gameGeneralInfoDto.setHandsCount(gameGeneralInfo.getHandsCount());
+        gameGeneralInfoDto.setSmallBlindValue(gameGeneralInfo.getSmallBlindValue());
+        gameGeneralInfoDto.setTotalPlayedHands(gameGeneralInfo.getTotalPlayedHands());
+        gameGeneralInfoDto.setTotalTokens(gameGeneralInfo.getTotalTokens());
+
+        return gameGeneralInfoDto;
     }
 
 

@@ -34,9 +34,6 @@ empty request
 
 5) CreateGame request- POST action
 
-{
-"settingsContent":"xxx"
-}
 
 6) CreateGame response
 
@@ -53,7 +50,11 @@ empty request
 
 8) JoinGame response
 
-{}
+
+{
+"isSucceed":true/false,
+"msgError":"xxx"
+}
 
 9) Logout request- POST action
 
