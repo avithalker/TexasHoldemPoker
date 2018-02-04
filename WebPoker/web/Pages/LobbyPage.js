@@ -26,9 +26,10 @@ function RefreshGameRooms(GameRooms)
     //rebuild
     $('<tr>'+"<th>Game Name</th>"+"<th>Owner</th>"+"<th>Hands Count</th>"+"<th>Buy size</th>"+"<th>Blinds</th>"+"<th>Num of Players</th>"+"<th>Status</th>"+"<th>Join Game</th>"+'</tr>').appendTo($("#GameRoomsTable"));
 
+
     $.each(GameRooms || [], function (index,gameroom) {
 
-
+        var Id='id'+index;
 
         $('<tr>' + '<td>' + gameroom.gameTitle + '</td>' + '<td>' + gameroom.owner + '</td>' + '<td>' + gameroom.handsCount + '</td>' +
             '<td>' + gameroom.buySize + '</td>' +
@@ -42,7 +43,21 @@ function RefreshGameRooms(GameRooms)
             +'<tr>'+
             '<td>'+gameroom.bigBlind+'</td>'+'<td>'+gameroom.smallBlind+'</td>'+'<td>'+gameroom.isBlindFixed+'</td>'+
             '<td>'+gameroom.blindAddition+'</td>'+
-            '</tr>'+'</table>'+'</td>'+'<td>'+gameroom.registeredPlayers+'/'+gameroom.maxPlayers+'</td>'+'<td>'+gameroom.gameStatus+'</td>'+'<td>'+'<input type="button" value="Join Game"/>'+'<td>'+'</tr>').appendTo($('#GameRoomsTable'));
+            '</tr>'+'</table>'+'</td>'+'<td>'+gameroom.registeredPlayers+'/'+gameroom.maxPlayers+'</td>'+'<td>'+gameroom.gameStatus+'</td>'+'<td>'+'<input type="button" value="Join Game" id="ChangeID"/>'+'<td>'+'</tr>').appendTo($('#GameRoomsTable'));
+
+
+        $('#ChangeID').attr('id',Id);
+
+        $("#"+Id).onclick(function() {
+
+            window.open("./GameRoomPage.html");
+        });
+
+
+
+
+
+
 
 
     });
