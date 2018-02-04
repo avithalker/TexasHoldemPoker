@@ -19,13 +19,11 @@ $(function() { // onload
                 $("#result").text("Failed to get result from server " + e);
             },
             success: function (r) {
-
-                var obj = JSON.parse(r);
-                if (obj.isSucceed == true) {
+                if (r['isSucceed'] == true) {
                     $("#result").append("<p>Upload Succeeded!!</p>");
                 }
                 else {
-                    $("#result").append("<p>" + msgError + "</p>");
+                    $("#result").append("<p>" + r['msgError'] + "</p>");
 
                 }
 

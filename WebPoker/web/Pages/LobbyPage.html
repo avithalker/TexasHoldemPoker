@@ -35,7 +35,12 @@
 
     <pane id="CenterGamesTable">
         <h2>Online Games</h2>
-        <input id="newgame" type="button" value="+">
+        <form id="uploadForm" enctype="multipart/form-data" method="POST" action="../Lobby/CreateGameRoom">
+            <input type="file" id="file" ><br>
+
+        </form>
+
+
         <table id="GameRoomsTable">
             <tr>
                 <th>Game Name</th>
@@ -46,6 +51,7 @@
                 <th>Num Of Players</th>
                 <th>Status</th>
             </tr>
+            <!--
             <tr>
                 <td></td>
                 <td></td>
@@ -112,8 +118,9 @@
                 <td></td>
                 <td></td>
             </tr>
-
+        -->
         </table>
+
     </pane>
 
 
