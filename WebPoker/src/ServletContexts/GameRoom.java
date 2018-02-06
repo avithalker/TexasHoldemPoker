@@ -5,10 +5,9 @@ import Business.GameSettings;
 import Common.ActionResult;
 import Common.GlobalDefines.RoomStatuses;
 import Common.PlayerUtilities.GameGeneralInfo;
+import Common.PlayerUtilities.PlayerInfo;
 import Common.gameExceptions.InvalidOperationException;
-import PokerDtos.GameGeneralInfoDto;
-import PokerDtos.GameRoomDto;
-import PokerDtos.PlayerSignInDto;
+import PokerDtos.*;
 
 public class GameRoom {
 
@@ -71,6 +70,42 @@ public class GameRoom {
         gameGeneralInfoDto.setTotalTokens(gameGeneralInfo.getTotalTokens());
 
         return gameGeneralInfoDto;
+    }
+
+    public PlayerInfoDto[] getPlayersInfo() throws InvalidOperationException{
+        PlayerInfo[] playersInfo = gameManager.getPlayersStatus();
+        PlayerInfoDto[] playersInfoDto = new PlayerInfoDto[playersInfo.length];
+
+        int i = 0;
+        for(PlayerInfo player : playersInfo){
+            playersInfoDto[i].setPlayerName(player.getPlayerName());
+            playersInfoDto[i].setPlayerType(player.getPlayerType().toString());
+            playersInfoDto[i].setTokens(player.getTokens());
+            playersInfoDto[i].setTotalBuys(player.getTotalBuys());
+            playersInfoDto[i].setTotalHandsPlayed(player.getTotalHandsPlayed());
+            playersInfoDto[i].setTotalWins(player.getTotalWins());
+            i++;
+        }
+
+        return playersInfoDto;
+    }
+
+    public PlayerGameStatusDto[] getPlayersGameStatus() throws InvalidOperationException{
+        PlayerInfo[] playersInfo = gameManager.getPlayersStatus();
+        PlayerGameStatusDto[] playersGameStatusDto = new PlayerGameStatusDto[playersInfo.length];
+
+        int i = 0;
+        for(PlayerInfo player : playersInfo){
+            playersGameStatusDto[i].setPlayerName(player.getPlayerName());
+            playersGameStatusDto[i].setCurrentBet(player.getCurrentBet());
+            playersGameStatusDto[i].setLastAction(player.getLastAction().toString());
+            playersGameStatusDto[i].setPlayerTitle(player.getPlayerTitle().toString());
+            playersGameStatusDto[i].setTokens(player.getTokens());
+            playersGameStatusDto[i].setPlayerCards(player.getPlayerCards());
+            i++;
+        }
+
+        return playersGameStatusDto;
     }
 
 

@@ -40,7 +40,7 @@ empty request
 "Result": true/false
 }
 
-9) GetPlayersInfo Request- Get action
+9) GetPlayersInfo Request (this is for filling the players table)- Get action
 
 empty request
 
@@ -49,17 +49,12 @@ empty request
 {
 	[
 		{
-			"playerId": xxx,
 			"playerName": "xxx",
-			"playerTitle": "xxx",
 			"playerType": "xxx",
 			"tokens": xxx,
-			"currentBet": xxx,
 			"totalBuys": xxx,
 			"totalWins": xxx,
-			"totalHandsPlayed": xxx,
-			"playerCards": ["xx","yy"],
-			"lastAction": "xxx"
+			"totalHandsPlayed": xxx
 		}
 	]
 }
@@ -99,3 +94,22 @@ empty request
 16) ExitGame Response
 
 {}
+
+17) GetPlayersGameStatus Request (this is for update the players action during the game)- Get action
+
+empty request
+
+18) GetPlayersGameStatus Response
+
+{
+	[
+		{
+			"playerName": "xxx",
+			"playerTitle": "xxx",
+			"tokens": xxx,
+			"currentBet": xxx,
+			"playerCards": ["xx","yy"],
+			"lastAction": "xxx"
+		}
+	]
+}
