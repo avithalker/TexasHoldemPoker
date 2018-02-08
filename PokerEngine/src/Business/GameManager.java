@@ -519,6 +519,15 @@ public class GameManager {
         return new ActionResult(true,"");
     }
 
+    public ActionResult buyTokens(String playerName){
+        for(int i=0;i<pokerPlayers.length;i++){
+            if(pokerPlayers[i].getPlayerName() == playerName){
+                return buyTokens(pokerPlayers[i].getPlayerId());
+            }
+        }
+        return new ActionResult(false,"Error- player not found");
+    }
+
     public ActionResult foldFromEntireGame(int playerId){
         if(!gameStateProcessor.isCurrStateBiggerThen(GameStates.PlayerRegisterd))
             return new ActionResult(false,"The game must start in order to make this action.");

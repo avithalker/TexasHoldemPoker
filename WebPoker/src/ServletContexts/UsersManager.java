@@ -32,11 +32,15 @@ public class UsersManager {
         return onlineUsers.containsKey(playerName);
     }
 
-    public synchronized List<String> getAllUsers(){
+    public synchronized List<String> getAllUsersNames(){
         List<String> userList=new ArrayList<>();
         for(String name:onlineUsers.keySet())
             userList.add(name);
         return userList;
+    }
+
+    public synchronized PlayerSignInDto [] getAllUsers(){
+        return  (PlayerSignInDto [])onlineUsers.values().toArray();
     }
 
     public synchronized PlayerSignInDto getUser(String playerName){

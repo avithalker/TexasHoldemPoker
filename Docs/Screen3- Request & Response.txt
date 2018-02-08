@@ -18,7 +18,11 @@ empty request
 
 4) BuyTokens Response
 
-{}
+
+{
+"isSuccess": true/false,
+"msgError": "xxx" (if isSuccess=true, empty)
+}
 
 5) IsMyTurn Request- GET action
 
@@ -27,7 +31,7 @@ empty request
 6) IsMyTurn Response
 
 {
-"Result": true/false
+"result": true/false
 }
 
 7) IsHandDone Request- GET action

@@ -3,11 +3,17 @@ package ServletContexts;
 import Business.GameManager;
 import Business.GameSettings;
 import Common.ActionResult;
+import Common.GlobalDefines.PlayerTypes;
 import Common.GlobalDefines.RoomStatuses;
 import Common.PlayerUtilities.GameGeneralInfo;
 import Common.PlayerUtilities.PlayerInfo;
+import Common.PlayerUtilities.PlayerRegistration;
 import Common.gameExceptions.InvalidOperationException;
 import PokerDtos.*;
+import org.omg.CORBA.DynAnyPackage.Invalid;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameRoom {
 
@@ -15,9 +21,11 @@ public class GameRoom {
     private GameManager gameManager;
     private RoomStatuses gameStatus;
     private String roomOwner;
+    private int roomMaxCapacity;
 
     public GameRoom(String roomOwner){
         this.roomOwner = roomOwner;
+        roomMaxCapacity = 0;
         gameStatus = RoomStatuses.Pending;
         roomUserManager = new UsersManager();
         gameManager = new GameManager();
@@ -33,7 +41,10 @@ public class GameRoom {
 
     public synchronized ActionResult loadRoomSettings(String settings){
         ActionResult result = gameManager.loadGameSettingsFromString(settings);
-
+        if(result.isSucceed()) {
+            GameSettings gameSettings = gameManager.getGameSettings();
+            roomMaxCapacity = gameSettings.getTotalPlayers();
+        }
         return result;
     }
 
@@ -106,6 +117,55 @@ public class GameRoom {
         }
 
         return playersGameStatusDto;
+    }
+
+    public boolean isGameRoomFull(){
+        return roomMaxCapacity == roomUserManager.getUsersCount();
+    }
+
+    public void startGame() throws InvalidOperationException{
+        ActionResult result = registerPlayers();
+        if(!result.isSucceed())
+            throw new InvalidOperationException(result.getMsgError());
+
+        result = gameManager.startNewGame();
+        if(!result.isSucceed())
+            throw new InvalidOperationException(result.getMsgError());
+
+        gameStatus = RoomStatuses.Active;
+    }
+
+    public void startHand(){
+
+    }
+
+    public boolean isHandRoundEnded(){
+        return gameManager.isHandRoundEnded();
+    }
+
+    public ActionResult buyTokens(String playerName){
+
+        return gameManager.buyTokens(playerName);
+    }
+
+
+    private ActionResult registerPlayers(){
+        PlayerSignInDto[] signInInfos = roomUserManager.getAllUsers();
+        ArrayList<PlayerRegistration> playerRegistrations = new ArrayList<>();
+        int id = 1;
+        for(PlayerSignInDto signInInfo: signInInfos){
+            PlayerTypes playerType;
+            if(signInInfo.isComputer())
+                playerType = PlayerTypes.Computer;
+            else
+                playerType = PlayerTypes.Human;
+
+            PlayerRegistration registrationInfo = new PlayerRegistration(id,playerType,signInInfo.getPlayerName());
+            playerRegistrations.add(registrationInfo);
+            id++;
+        }
+
+        return gameManager.registerPlayers(playerRegistrations);
     }
 
 

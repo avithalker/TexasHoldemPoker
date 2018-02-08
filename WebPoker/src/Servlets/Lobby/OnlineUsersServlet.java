@@ -21,7 +21,7 @@ public class OnlineUsersServlet extends HttpServlet {
         resp.setContentType("application/json");
 
         UsersManager usersManager= ServletContextUtils.getServerUserManager(getServletContext());
-        List<String> onlineUsers = usersManager.getAllUsers();
+        List<String> onlineUsers = usersManager.getAllUsersNames();
         Gson gson = new Gson();
         String onlineUsersJsonData = gson.toJson(onlineUsers);
         try (PrintWriter out = resp.getWriter()) {

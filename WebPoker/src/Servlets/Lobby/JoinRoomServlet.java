@@ -1,7 +1,9 @@
 package Servlets.Lobby;
 
 import Common.ActionResult;
+import Common.gameExceptions.InvalidOperationException;
 import PokerDtos.PlayerSignInDto;
+import ServletContexts.GameRoom;
 import ServletContexts.GameRoomManager;
 import ServletContexts.UsersManager;
 import ServletUtils.ServletContextUtils;
@@ -23,25 +25,38 @@ public class JoinRoomServlet extends HttpServlet{
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         Gson jsonParser = new Gson();
+        GameRoomManager lobby = ServletContextUtils.getServerLobby(getServletContext());
+        ActionResult result;
         String resultJson;
 
         String userName = SessionUtils.getUsername(req);
         if(userName == null){
-            ActionResult result = new ActionResult(false,"error- user is not logged in");
+            result = new ActionResult(false,"error- user is not logged in");
             resultJson = jsonParser.toJson(result);
         }
         else {
-            GameRoomManager lobby = ServletContextUtils.getServerLobby(getServletContext());
             UsersManager usersManager = ServletContextUtils.getServerUserManager(getServletContext());
 
             PlayerSignInDto userDetails = usersManager.getUser(userName);
-            ActionResult result = lobby.joinRoom(getRoomNameFromRequest(req), userDetails);
+            result = lobby.joinRoom(getRoomNameFromRequest(req), userDetails);
             resultJson = jsonParser.toJson(result);
         }
 
         try (PrintWriter out = resp.getWriter()) {
             out.write(resultJson);
             out.flush();
+        }
+
+        try {
+
+            if (result.isSucceed()) {
+                GameRoom gameRoom = lobby.getRoomByName(getRoomNameFromRequest(req));
+                if (gameRoom.isGameRoomFull())
+                    gameRoom.startGame();
+            }
+        }catch (InvalidOperationException e)
+        {
+            throw new ServletException(e.getMessage());
         }
     }
 
