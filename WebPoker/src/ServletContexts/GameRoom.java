@@ -8,9 +8,11 @@ import Common.GlobalDefines.RoomStatuses;
 import Common.PlayerUtilities.GameGeneralInfo;
 import Common.PlayerUtilities.PlayerInfo;
 import Common.PlayerUtilities.PlayerRegistration;
+import Common.PlayerUtilities.PokerTableView;
 import Common.gameExceptions.InvalidOperationException;
 import PokerDtos.*;
 import org.omg.CORBA.DynAnyPackage.Invalid;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +121,15 @@ public class GameRoom {
         return playersGameStatusDto;
     }
 
+    public TableInfoDto getTableInfo(){
+        PokerTableView tableInfo = gameManager.getTableView();
+        TableInfoDto tableDto = new TableInfoDto();
+
+        tableDto.setPot(tableInfo.getPot());
+        tableDto.setCards(tableInfo.getTableCards());
+        return tableDto;
+    }
+
     public boolean isGameRoomFull(){
         return roomMaxCapacity == roomUserManager.getUsersCount();
     }
@@ -141,6 +152,10 @@ public class GameRoom {
 
     public boolean isHandRoundEnded(){
         return gameManager.isHandRoundEnded();
+    }
+
+    public SimpleResultDto isMyTurn(String playerName){
+        return new SimpleResultDto(gameManager.isPlayerTurnValidation(playerName));
     }
 
     public ActionResult buyTokens(String playerName){

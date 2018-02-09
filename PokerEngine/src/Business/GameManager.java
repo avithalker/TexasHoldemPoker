@@ -466,6 +466,14 @@ public class GameManager {
         return isGambleRoundDone;
     }
 
+    public boolean isPlayerTurnValidation(String playerName){
+        Player player = findPlayerIdByName(playerName);
+        if(player == null)
+            return false;
+        ActionResult result = isPlayerTurnValidation(player.getPlayerId());
+        return result.isSucceed();
+    }
+
     public ActionResult isPokerActionValid(int playerId, PokerAction action){
         Player requstedPlayer = getPlayerById(playerId);
         ActionResult turnResult = isPlayerTurnValidation(playerId);
@@ -637,6 +645,14 @@ public class GameManager {
         if(!checkIfGambleRoundEnded())
             gambleRoundManager.moveToNextPlayer(activePokerPlayers);
         return result;
+    }
+
+    private Player findPlayerIdByName(String playerName){
+        for(Player player:pokerPlayers){
+            if(player.getPlayerName() == playerName)
+                return player;
+        }
+        return null;
     }
 
     private void updateWinners(ArrayList<WinnerInfo>winners) {

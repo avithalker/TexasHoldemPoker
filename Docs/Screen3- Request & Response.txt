@@ -18,7 +18,6 @@ empty request
 
 4) BuyTokens Response
 
-
 {
 "isSuccess": true/false,
 "msgError": "xxx" (if isSuccess=true, empty)
@@ -87,7 +86,7 @@ empty request
 14) GetTableInfo Response
 
 {
-"tableCards": ["xx","yy"...],
+"tableCards": ["xx","yy"...] (the array will always contain 5 elements. if the card was not reveled yet, you will recieve the word "card"),
 "pot": xxx
 }
 
