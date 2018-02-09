@@ -4,11 +4,9 @@ import Business.GameManager;
 import Business.GameSettings;
 import Common.ActionResult;
 import Common.GlobalDefines.PlayerTypes;
+import Common.GlobalDefines.PokerAction;
 import Common.GlobalDefines.RoomStatuses;
-import Common.PlayerUtilities.GameGeneralInfo;
-import Common.PlayerUtilities.PlayerInfo;
-import Common.PlayerUtilities.PlayerRegistration;
-import Common.PlayerUtilities.PokerTableView;
+import Common.PlayerUtilities.*;
 import Common.gameExceptions.InvalidOperationException;
 import PokerDtos.*;
 import org.omg.CORBA.DynAnyPackage.Invalid;
@@ -154,6 +152,45 @@ public class GameRoom {
         return gameManager.isHandRoundEnded();
     }
 
+    public ActionResult MakePokerAction(String playerName, int action, int value){
+        int playerId = gameManager.findPlayerIdByName(playerName);
+        PokerAction pokerAction = PokerAction.parseFromInt(action);
+        ActionResult result;
+        switch (pokerAction){
+            case BET:{
+                result = gameManager.Bet(playerId,value);
+                break;
+            }
+            case CHECK:{
+                result = gameManager.Check(playerId);
+                break;
+            }
+            case CALL:{
+                result = gameManager.Call(playerId);
+                break;
+            }
+            case FOLD:{
+                result = gameManager.Fold(playerId);
+                break;
+            }
+            case RAISE:{
+                result = gameManager.Raise(playerId,value);
+                break;
+            }
+            default:{
+                result = new ActionResult(false,"Error- invalid action type");
+                break;
+            }
+        }
+        if(!result.isSucceed())
+            return result;
+
+        handlePlayerEndTurn();
+        return result;
+
+
+    }
+
     public SimpleResultDto isMyTurn(String playerName){
         return new SimpleResultDto(gameManager.isPlayerTurnValidation(playerName));
     }
@@ -183,6 +220,58 @@ public class GameRoom {
         return gameManager.registerPlayers(playerRegistrations);
     }
 
+    private void handlePlayerEndTurn() {
 
+        if (areAllHumanPlayersFold()) {
+            killHand();
+            return;
+        }
+
+        if (gameManager.isGambleRoundDone()) {
+            if (!gameManager.isAllActivePlayerHasTokens()) {
+                gameManager.skipAllGambleRounds();
+                System.out.println("Player doesn't have enough tokens- Press the ok button to finish the hand and see the winners");
+                finishHand();
+                return;
+            }
+            gameManager.startNewGambleRound();
+
+            if(gameManager.isHandRoundEnded()){
+                finishHand();
+                return;
+            }
+        }
+    }
+
+    private boolean areAllHumanPlayersFold(){
+        try {
+            PlayerInfo[] handPlayers = gameManager.getActivePlayersStatus();
+            for(PlayerInfo info:handPlayers){
+                if(info.getPlayerType() == PlayerTypes.Human && !gameManager.isPlayerFold(info.getPlayerId()))
+                    return false;
+            }
+        }catch (InvalidOperationException ex){
+            System.out.println("Invalid function call- you are not allowed to call to getActivePlayersStatus at the moment");
+            return false;
+        }
+        return true;
+    }
+
+    private void killHand(){
+        System.out.println("Hand was forcibly finish- All human players have folded");
+        List<WinnerInfo> winners = gameManager.killHand(-1);
+
+        //todo: save the winners!
+    }
+
+    private void finishHand(){
+        try {
+            List<WinnerInfo> winners = gameManager.finishHandAndGetWinners();
+
+            //todo: save the winners
+        }catch (InvalidOperationException ex){
+                System.out.println("Invalid function call- you are not allowed to call to finishHandAndGetWinners at the moment");
+        }
+    }
 
 }

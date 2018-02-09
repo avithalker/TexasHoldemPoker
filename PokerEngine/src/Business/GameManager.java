@@ -467,7 +467,7 @@ public class GameManager {
     }
 
     public boolean isPlayerTurnValidation(String playerName){
-        Player player = findPlayerIdByName(playerName);
+        Player player = findPlayerByName(playerName);
         if(player == null)
             return false;
         ActionResult result = isPlayerTurnValidation(player.getPlayerId());
@@ -647,7 +647,14 @@ public class GameManager {
         return result;
     }
 
-    private Player findPlayerIdByName(String playerName){
+    public int findPlayerIdByName(String playerName){
+        Player player = findPlayerByName(playerName);
+        if(player == null)
+            return -1;
+        return player.getPlayerId();
+    }
+
+    private Player findPlayerByName(String playerName){
         for(Player player:pokerPlayers){
             if(player.getPlayerName() == playerName)
                 return player;

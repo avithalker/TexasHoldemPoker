@@ -36,5 +36,16 @@ public enum PokerAction {
         public String toString() {
             return "Raise";
         }
+    };
+
+    public static PokerAction parseFromInt(int action){
+        switch (action){
+            case 1: return BET;
+            case 2: return CHECK;
+            case 3: return RAISE;
+            case 4: return FOLD;
+            default: return NONE;
+        }
+
     }
 }

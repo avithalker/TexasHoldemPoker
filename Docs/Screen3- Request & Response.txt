@@ -1,7 +1,7 @@
 1) MakePokerAction Request- POST action
 
 {
-"Action": 1-Bet 2-Check 3-Raise 4-Fold,
+"action": 1-Bet 2-Check 3-Raise 4-Fold,
 "value": xx (for Bet and Raise only)
 }
 
