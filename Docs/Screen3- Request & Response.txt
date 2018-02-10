@@ -98,7 +98,7 @@ empty request
 
 {}
 
-17) GetPlayersGameStatus Request (this is for update the players action during the game)- Get action
+17) GetPlayersGameStatus Request (this is for update the players action during the game)- GET action
 
 empty request
 
@@ -115,4 +115,35 @@ empty request
 			"lastAction": "xxx"
 		}
 	]
+}
+
+19) GetWinners Request- GET action
+
+empty request
+
+20) GetWinners Response
+
+{
+	[
+		"playerName": "xxx",
+		"playerType": "xxx",
+		"totalBuys": xxx,
+		"winningPrice": xxx,
+		"totalWinsNumber": xxx,
+		"totalHandsPlayed": xxx,
+		"handRank": "xxx"
+	]
+}
+
+21) ReadyToStart Request - POST action
+
+{
+	"isReady": true/false
+}
+
+22) ReadyToStart Response
+
+{
+"isSuccess": true/false,
+"msgError": "xxx" (if isSuccess=true, empty)
 }
