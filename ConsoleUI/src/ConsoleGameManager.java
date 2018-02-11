@@ -215,7 +215,7 @@ public class ConsoleGameManager {
         registrationInfo.add(new PlayerRegistration(3, PlayerTypes.Computer,""));
         registrationInfo.add(new PlayerRegistration(4, PlayerTypes.Computer,""));
 
-        return pokerGameEngine.registerPlayers(registrationInfo);
+        return pokerGameEngine.registerPlayers(registrationInfo,true);
     }
 
     private void handlePlayerAction(IExternalPlayer playerInterface, PlayerInfo playerInfo, PokerTableView tableView){

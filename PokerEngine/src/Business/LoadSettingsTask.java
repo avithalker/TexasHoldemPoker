@@ -41,7 +41,7 @@ public class LoadSettingsTask extends Task<ActionResult> {
                 gameManager.setGameSettings(gameSettings);
                 gameStateProcessor.moveToNextState();
                 if(gameSettings.getGameType() == GameTypes.MultiPlayer)
-                    result = gameManager.registerPlayers(gameSettings.getFixedPlayersRegistration());
+                    result = gameManager.registerPlayers(gameSettings.getFixedPlayersRegistration(),true);
             }
 
             if(result.isSucceed()) {

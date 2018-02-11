@@ -206,7 +206,7 @@ public class GameManager {
                 this.gameSettings = gameSettings;
                 gameStateProcessor.moveToNextState();
                 if(gameSettings.getGameType() == GameTypes.MultiPlayer)
-                    result = registerPlayers(gameSettings.getFixedPlayersRegistration());
+                    result = registerPlayers(gameSettings.getFixedPlayersRegistration(),true);
             }
 
             return result;
@@ -238,7 +238,7 @@ public class GameManager {
                 this.gameSettings = gameSettings;
                 gameStateProcessor.moveToNextState();
                 if(gameSettings.getGameType() == GameTypes.MultiPlayer)
-                    result = registerPlayers(gameSettings.getFixedPlayersRegistration());
+                    result = registerPlayers(gameSettings.getFixedPlayersRegistration(),true);
             }
 
             return result;
@@ -411,7 +411,7 @@ public class GameManager {
         return true;
     }
 
-    public ActionResult registerPlayers(ArrayList<PlayerRegistration> playerRegistrations) {
+    public ActionResult registerPlayers(ArrayList<PlayerRegistration> playerRegistrations, boolean randomInitialization) {
 
         ActionResult result;
 
@@ -425,13 +425,20 @@ public class GameManager {
 
         pokerPlayers = new Player[playerRegistrations.size()];
 
+        int fixedIndex = 0;
         for (PlayerRegistration registration : playerRegistrations) {
             Player newPlayer = new Player(registration.getPlayerId(), registration.getPlayerType(),
                     gameSettings.getBuyValue(),registration.getPlayerName());
 
-            this.pokerPlayers[getRandomPlaceForPlayer()] = newPlayer;
+            if(randomInitialization)
+                this.pokerPlayers[getRandomPlaceForPlayer()] = newPlayer;
+            else
+            {
+                this.pokerPlayers[fixedIndex] = newPlayer;
+                fixedIndex++;
+            }
         }
-        initializePlayersTitles();
+        initializePlayersTitles(randomInitialization);
         gameStateProcessor.moveToNextState();
         return result;
     }
@@ -787,9 +794,13 @@ public class GameManager {
     }
 
 
-    private void initializePlayersTitles(){
+    private void initializePlayersTitles(boolean randomInitialization){
         Random rnd = new Random();
-        int titlePlace = rnd.nextInt(pokerPlayers.length);
+        int titlePlace;
+        if(randomInitialization)
+            titlePlace = rnd.nextInt(pokerPlayers.length);
+        else
+            titlePlace = 0;
         this.pokerPlayers[titlePlace].setTitle(PokerTitle.DEALER);
         this.dealerPlace = titlePlace;
         dealerFirstPlace = dealerPlace;

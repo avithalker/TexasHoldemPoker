@@ -202,7 +202,7 @@ public class GameRoom {
 
 
     private ActionResult registerPlayers(){
-        PlayerSignInDto[] signInInfos = roomUserManager.getAllUsers();
+        PlayerSignInDto[] signInInfos = roomUserManager.getAllUsersOrdered();
         ArrayList<PlayerRegistration> playerRegistrations = new ArrayList<>();
         int id = 1;
         for(PlayerSignInDto signInInfo: signInInfos){
@@ -217,7 +217,7 @@ public class GameRoom {
             id++;
         }
 
-        return gameManager.registerPlayers(playerRegistrations);
+        return gameManager.registerPlayers(playerRegistrations,false);
     }
 
     private void handlePlayerEndTurn() {
