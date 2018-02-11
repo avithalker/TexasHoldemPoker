@@ -22,6 +22,7 @@ public class GameRoom {
     private RoomStatuses gameStatus;
     private String roomOwner;
     private int roomMaxCapacity;
+    private List<WinnerInfo> winners;
 
     public GameRoom(String roomOwner){
         this.roomOwner = roomOwner;
@@ -132,6 +133,26 @@ public class GameRoom {
         return tableDto;
     }
 
+    public List<WinnerInfoDto> getWinners() throws InvalidOperationException{
+        if(winners == null)
+            throw new InvalidOperationException("Error- getting winners method is invalid in this part of the game");
+
+        List<WinnerInfoDto> winnerInfoDtos = new ArrayList<>(winners.size());
+        for(WinnerInfo winner: winners){
+            WinnerInfoDto winnerInfoDto = new WinnerInfoDto();
+            winnerInfoDto.setHandRank(winner.getHandRank());
+            winnerInfoDto.setPlayerName(winner.getName());
+            winnerInfoDto.setPlayerType(winner.getPlayerType());
+            winnerInfoDto.setTotalBuys(winner.getTotalBuys());
+            winnerInfoDto.setTotalHandsPlayed(winner.getTotalHandsPlayed());
+            winnerInfoDto.setTotalWinsNumber(winner.getTotalWinsNumber());
+            winnerInfoDto.setWinningPrice(winner.getWinningPrice());
+
+            winnerInfoDtos.add(winnerInfoDto);
+        }
+        return winnerInfoDtos;
+    }
+
     public boolean isGameRoomFull(){
         return roomMaxCapacity == roomUserManager.getUsersCount();
     }
@@ -149,7 +170,7 @@ public class GameRoom {
     }
 
     public void startHand(){
-
+        winners = null;
     }
 
     public boolean isHandRoundEnded(){
@@ -263,14 +284,14 @@ public class GameRoom {
 
     private void killHand(){
         System.out.println("Hand was forcibly finish- All human players have folded");
-        List<WinnerInfo> winners = gameManager.killHand(-1);
+        winners = gameManager.killHand(-1);
 
         //todo: save the winners!
     }
 
     private void finishHand(){
         try {
-            List<WinnerInfo> winners = gameManager.finishHandAndGetWinners();
+             winners = gameManager.finishHandAndGetWinners();
 
             //todo: save the winners
         }catch (InvalidOperationException ex){

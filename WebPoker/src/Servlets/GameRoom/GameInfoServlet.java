@@ -46,6 +46,7 @@ public class GameInfoServlet extends HttpServlet {
             }
         }
         catch (InvalidOperationException e){
+            System.out.println(e.getMessage());
                 throw new ServletException("Error- failed to get game info!");
         }
 

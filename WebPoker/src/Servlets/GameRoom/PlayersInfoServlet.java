@@ -45,6 +45,7 @@ public class PlayersInfoServlet extends HttpServlet {
             return;
 
         }catch (InvalidOperationException e){
+            System.out.println(e.getMessage());
             throw new ServletException(e.getMessage());
         }
     }
