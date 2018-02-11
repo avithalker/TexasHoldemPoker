@@ -17,9 +17,9 @@ import java.util.List;
 
 public class GameRoom {
 
-    private UsersManager roomUserManager;
+    private GameRoomUserManager roomUserManager;
     private GameManager gameManager;
-    private RoomStatuses gameStatus;
+    private RoomStatuses gameStatus; //todo: remember to change status to pending in the end!!!
     private String roomOwner;
     private int roomMaxCapacity;
     private List<WinnerInfo> winners;
@@ -28,7 +28,7 @@ public class GameRoom {
         this.roomOwner = roomOwner;
         roomMaxCapacity = 0;
         gameStatus = RoomStatuses.Pending;
-        roomUserManager = new UsersManager();
+        roomUserManager = new GameRoomUserManager();
         gameManager = new GameManager();
     }
 
@@ -38,6 +38,17 @@ public class GameRoom {
 
     public void leaveRoom(String playerName){
         roomUserManager.removeUser(playerName);
+    }
+
+    public boolean setPlayerIsReadyStatus(String playerName,boolean isReady) {
+        roomUserManager.setReadyStatus(playerName, isReady);
+        if(gameStatus == RoomStatuses.Active) {
+            if (roomUserManager.isAllReady()) {
+                startHand();
+            }
+        }
+
+        return true;
     }
 
     public synchronized ActionResult loadRoomSettings(String settings){
@@ -287,6 +298,7 @@ public class GameRoom {
         winners = gameManager.killHand(-1);
 
         //todo: save the winners!
+        handleEndOfHand();
     }
 
     private void finishHand(){
@@ -294,9 +306,14 @@ public class GameRoom {
              winners = gameManager.finishHandAndGetWinners();
 
             //todo: save the winners
+            handleEndOfHand();
         }catch (InvalidOperationException ex){
                 System.out.println("Invalid function call- you are not allowed to call to finishHandAndGetWinners at the moment");
         }
+    }
+
+    private void handleEndOfHand(){
+        roomUserManager.InitAllReadyStatuses();
     }
 
 }
