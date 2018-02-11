@@ -48,6 +48,10 @@ public class GameRoom {
         return result;
     }
 
+    public RoomStatuses getGameStatus(){
+        return gameStatus;
+    }
+
     public GameRoomDto getRoomDetails(){
 
         GameRoomDto roomDetails = new GameRoomDto();

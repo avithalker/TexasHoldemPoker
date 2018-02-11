@@ -1,6 +1,7 @@
 package ServletContexts;
 
 import Common.ActionResult;
+import Common.GlobalDefines.RoomStatuses;
 import PokerDtos.GameRoomDto;
 import PokerDtos.PlayerSignInDto;
 
@@ -45,6 +46,8 @@ public class GameRoomManager {
             return new ActionResult(false,"Can't join the room because the room doesn't exist");
         }
         GameRoom room = getRoomByName(roomName);
+        if(room.getGameStatus() == RoomStatuses.Active)
+            return new ActionResult(false,"Can't join the room- game already started");
         boolean result = room.joinRoom(player);
         if(!result)
             return new ActionResult(false,"Can't join the room- the room is full");
