@@ -125,6 +125,13 @@ public class GameSettings {
             if(!result.isSucceed())
                 return result;
         }
+        else if(getGameType() == GameTypes.DynamicMultiPlayer){
+            result = isPlayersAmountIsValid(getTotalPlayers());
+            if(!result.isSucceed())
+                return result;
+            if(getGameTitle() == null || getGameTitle() == "")
+                return new ActionResult(false,"Error- game must have title");
+        }
 
         result = isBlindsValid();
         if(!result.isSucceed())
