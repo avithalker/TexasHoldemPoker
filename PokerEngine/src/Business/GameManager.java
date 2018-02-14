@@ -762,6 +762,8 @@ public class GameManager {
 
     private int getToalTokensInGame(){
         int totalTokenAmount = 0;
+        if(pokerPlayers == null || pokerPlayers.length == 0)
+            return totalTokenAmount;
         for(Player player:pokerPlayers){
             totalTokenAmount += player.getTokens();
         }
