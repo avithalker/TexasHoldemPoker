@@ -20,6 +20,7 @@ public class GameRoom {
     private GameRoomUserManager roomUserManager;
     private GameManager gameManager;
     private RoomStatuses gameStatus; //todo: remember to change status to pending in the end!!!
+    private boolean isHandStarted;
     private String roomOwner;
     private int roomMaxCapacity;
     private List<WinnerInfo> winners;
@@ -165,6 +166,7 @@ public class GameRoom {
     }
 
     public boolean isGameRoomFull(){
+
         return roomMaxCapacity == roomUserManager.getUsersCount();
     }
 
@@ -186,6 +188,10 @@ public class GameRoom {
 
     public boolean isHandRoundEnded(){
         return gameManager.isHandRoundEnded();
+    }
+
+    public boolean isHandRoundStarted(){
+        return gameManager.isHandRoundStarted();
     }
 
     public ActionResult MakePokerAction(String playerName, int action, int value){

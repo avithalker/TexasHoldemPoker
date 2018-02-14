@@ -385,6 +385,12 @@ public class GameManager {
         return 0;
     }
 
+    public boolean isHandRoundStarted(){
+        if(gambleRoundManager == null)
+            return false;
+        return gambleRoundManager.isHandRoundStarted();
+    }
+
     public boolean isHandRoundEnded() {
         return gambleRoundManager.isHandDone(activePokerPlayers, gameTable.getBetSize());
     }
@@ -869,8 +875,10 @@ public class GameManager {
     }
 
     private void endHandRound(){
-        if(checkIsNextStateValid(HandRoundStates.HandRoundEnded))
+        if(checkIsNextStateValid(HandRoundStates.HandRoundEnded)) {
+            gambleRoundManager.endHand();
             handRoundStateProcessor.moveToNextState();
+        }
     }
 
     private void handleNewGambleRoundStart(BetRoundTitles betRoundTitle) {

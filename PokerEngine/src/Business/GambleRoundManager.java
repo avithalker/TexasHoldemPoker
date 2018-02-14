@@ -16,6 +16,7 @@ public class GambleRoundManager {
     private BetRoundTitles [] roundStates;
     private Player lastRaisedPlayer;
     private Player firstPlayerToBet;
+    private boolean isHandRoundStarted;
 
 
     public GambleRoundManager(){
@@ -23,6 +24,7 @@ public class GambleRoundManager {
         gambleRoundNo = 0;
         roundStates = new BetRoundTitles[]{BetRoundTitles.FirstBetRound,
                 BetRoundTitles.Flop,BetRoundTitles.Turn,BetRoundTitles.River};
+        isHandRoundStarted = false;
     }
 
 
@@ -108,6 +110,11 @@ public class GambleRoundManager {
         this.isFirstBetReceived = false;
         this.lastRaisedPlayer = null;
         this.firstPlayerToBet = null;
+        isHandRoundStarted = true;
+    }
+
+    public void endHand(){
+        isHandRoundStarted = false;
     }
 
     public BetRoundTitles startNewGambleRound(Player[] playersInRound, int dealerPlace){
@@ -147,4 +154,7 @@ public class GambleRoundManager {
         }while (!found);
     }
 
+    public boolean isHandRoundStarted() {
+        return isHandRoundStarted;
+    }
 }
