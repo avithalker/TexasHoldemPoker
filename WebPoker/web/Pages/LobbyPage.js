@@ -51,6 +51,19 @@ function RefreshGameRooms(GameRooms)
         $("#"+Id).onclick(function() {
 
             window.open("./GameRoomPage.html");
+            $.ajax({
+                url: ,
+                type: 'POST',
+                data: { field1: "hello", field2 : "hello2"} ,
+                contentType: 'application/json; charset=utf-8',
+                success: function (response) {
+                    alert(response.status);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+            //gameName
         });
 
 

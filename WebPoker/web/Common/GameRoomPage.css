@@ -1,0 +1,68 @@
+table {
+
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 200px;
+    height: 20px;
+    font-size: x-small;
+}
+
+
+body{
+
+    background-image: url("../Pages/GameBackground.jpg");
+    background-color: #cccccc;
+    background-repeat:no-repeat;
+    background-size: cover;
+
+}
+
+.GameDetails{
+    font-color:gold;
+    width:25%;
+}
+
+.PlayersDetails{
+    grid-area: 3/1/span 2/span 1;
+    font-color:gold;
+    width:25%;
+}
+
+h3{
+    color: gold;
+}
+
+.GameBoard{
+    width: 75%;
+    border: gold;
+    border-style: dotted;
+    float: right;
+ }
+
+#table{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width:350px;
+    height:200px;
+}
+
+.actions{
+    font-size: medium;
+    text-align: center;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    color:gold;
+}
+
+.grid-container {
+    height: 100%;
+    margin: 0;
+}
+.player{
+
+}

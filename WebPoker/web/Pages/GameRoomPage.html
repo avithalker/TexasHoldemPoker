@@ -2,10 +2,82 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Game Room</title>
+    <link rel="stylesheet" href="../Common/GameRoomPage.css">
 </head>
 <body>
+<div class="container">
+    <div class="GameDetails">
+        <h3>Game Details</h3>
+        <table id="GameDetailsTable">
+            <tr>
+                <th>Buy Value</th>
+                <th id="buy_value"></th>
+            <tr>
+            <tr>
+                <th>Hands Count</th>
+                <th id="hands_count"></th>
+            <tr>
+            <tr>
+                <th>Total Played Hands</th>
+                <th id="total_played_hands"></th>
+            <tr>
+            <tr>
+                <th>Big Blind</th>
+                <th id="big_blind_value"></th>
+            <tr>
+            <tr>
+                <th>Small Blind</th>
+                <th id="small_blind_value"></th>
+            <tr>
+            <tr>
+                <th>Is Fixed</th>
+                <th id="fixed_value"></th>
+            <tr>
+            <tr>
+                <th>Additions</th>
+                <th id="additions"></th>
+            <tr>
+            <tr>
+                <th>Total Tokens</th>
+                <th id="total_tokens"></th>
+            <tr>
+        </table>
+    </div>
+    <div class="GameBoard">
+        <img id="table" src="../Pages/table.png" />
+    </div>
+    <div class="PlayersDetails">
+        <h3>Players' Details</h3>
+        <table id="PlayersDetailsTable">
+            <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Tokens</th>
+                <th>Total Buys</th>
+                <th>Total Winnings</th>
+                <th>Total Hands Played</th>
+            </tr>
+            <tr><td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
+            <tr><td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
+            <tr><td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
+            <tr><td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
+            <tr><td></td> <td></td> <td></td> <td></td> <td></td> <td></td></tr>
+        </table>
+    </div>
+    <div  class="actions">
+        <h3>Actions</h3>
+        <input type="button" value="I'm Ready"/>
+        <input type="button" value="Fold"/>
+        <input type="button"value="Check"/>
+        <input type="button" value="Call"/>
+        <input type="button" value="Bet"/>
+        <input type="text"/>
+        <input type="button" value="Raise"/>
+        <input type="text" />
+    </div>
 
-<p>Success!!!!!</p>
+
+</div>
 </body>
 </html>
