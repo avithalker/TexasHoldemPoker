@@ -13,6 +13,7 @@ import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class GameRoom {
@@ -209,6 +210,36 @@ public class GameRoom {
 
     public boolean isHandRoundStarted(){
         return gameManager.isHandRoundStarted();
+    }
+
+    public PokerActionValidationDto getValidActionForPlayer(String playerName){
+        HashMap<PokerAction,Boolean> validPokerActions = gameManager.getValidPokerActionsForPlayer(gameManager.findPlayerIdByName(playerName));
+        PokerActionValidationDto pokerActionValidationDto = new PokerActionValidationDto();
+        for(PokerAction action: validPokerActions.keySet()){
+            switch (action){
+                case RAISE: {
+                    pokerActionValidationDto.setRaiseValid(validPokerActions.get(action));
+                    break;
+                }
+                case FOLD: {
+                    pokerActionValidationDto.setFoldValid(validPokerActions.get(action));
+                    break;
+                }
+                case CALL: {
+                    pokerActionValidationDto.setCallValid(validPokerActions.get(action));
+                    break;
+                }
+                case BET: {
+                    pokerActionValidationDto.setBetValid(validPokerActions.get(action));
+                    break;
+                }
+                case CHECK: {
+                    pokerActionValidationDto.setCheckValid(validPokerActions.get(action));
+                    break;
+                }
+            }
+        }
+        return pokerActionValidationDto;
     }
 
     public ActionResult MakePokerAction(String playerName, int action, int value){

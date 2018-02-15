@@ -10,4 +10,8 @@ public class SimpleResultDto {
     public void setResult(boolean result) {
         this.result = result;
     }
+
+    public boolean isResult() {
+        return result;
+    }
 }

@@ -147,3 +147,36 @@ empty request
 "isSuccess": true/false,
 "msgError": "xxx" (if isSuccess=true, empty)
 }
+
+23) IsHandStarted Request- GET action
+
+empty request
+
+24) IsHandStarted Response
+
+{
+"Result": true/false
+}
+
+25) IsGameStarted Request- GET action
+
+empty request
+
+26) IsGameStarted Response
+
+{
+"Result": true/false
+}
+
+27) GetValidPokerAction Request- GET action
+
+empty request
+
+28) GetValidPokerAction Response
+{
+        "isBetValid": true/false
+        "isCallValid": true/false
+        "isCheckValid": true/false
+        "isFoldValid": true/false
+        "isRaiseValid": true/false
+}

@@ -1,6 +1,6 @@
 package Servlets.GameRoom;
 
-import Common.ActionResult;
+import PokerDtos.PokerActionValidationDto;
 import ServletContexts.GameRoom;
 import ServletContexts.GameRoomManager;
 import ServletUtils.ServletContextUtils;
@@ -15,10 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "ReadyToStartServlet", urlPatterns = {"/GameRoom/readyToStart"})
-public class ReadyToStartServlet extends HttpServlet {
+@WebServlet(name = "GetValidPokerActionServlet", urlPatterns = {"/GameRoom/validPokerActions"})
+public class GetValidPokerActionServlet extends HttpServlet {
+
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
 
         String userName = SessionUtils.getUsername(req);
@@ -31,27 +32,15 @@ public class ReadyToStartServlet extends HttpServlet {
         if(gameRoom == null)
             throw new ServletException("Error- player didn't join to a game room!");
 
-        boolean isReady = getIsReadyFromRequest(req);
-        boolean result = gameRoom.setPlayerIsReadyStatus(userName,isReady);
-        ActionResult actionResult;
-        if(result)
-            actionResult = new ActionResult(true,"");
-        else
-            actionResult = new ActionResult(false,"Error in updating player's isReady status");
+        PokerActionValidationDto pokerActionValidationDto = gameRoom.getValidActionForPlayer(userName);
 
         Gson jsonParser = new Gson();
-        String resultJson = jsonParser.toJson(actionResult);
+        String resultJson = jsonParser.toJson(pokerActionValidationDto);
 
         try (PrintWriter out = resp.getWriter()) {
             out.write(resultJson);
             out.flush();
         }
-    }
 
-    private boolean getIsReadyFromRequest(HttpServletRequest req){
-        String isReadyStr = req.getParameter("isReady");
-        if(isReadyStr == "true" || isReadyStr == "True")
-            return true;
-        return false;
     }
 }

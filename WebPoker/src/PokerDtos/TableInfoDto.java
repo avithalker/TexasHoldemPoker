@@ -19,4 +19,8 @@ public class TableInfoDto {
             this.cards[i] = DEFAULT_CARD;
         }
     }
+
+    public int getPot() {
+        return pot;
+    }
 }
