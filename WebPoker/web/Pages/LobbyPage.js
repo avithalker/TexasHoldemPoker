@@ -48,21 +48,29 @@ function RefreshGameRooms(GameRooms)
 
         $('#ChangeID').attr('id',Id);
 
-        $("#"+Id).onclick(function() {
-
-            window.open("./GameRoomPage.html");
+        $("#"+Id).click(function() {
             $.ajax({
-                url: ,
-                type: 'POST',
-                data: { field1: "hello", field2 : "hello2"} ,
-                contentType: 'application/json; charset=utf-8',
-                success: function (response) {
-                    alert(response.status);
-                },
-                error: function () {
-                    alert("error");
+                url:"/Lobby/joinRoom",
+                data: "gameName="+ gameroom.gameTitle,
+                dataType:"json",
+                type:'POST',
+                success:function(r)
+                {
+
+                    if (r.isSucceed == true) {
+                        alert("Succeeded!!");
+
+                    }
+                    else {
+                        alert(r.msgError);
+
+                    }
                 }
-            });
+
+
+
+            })
+            //window.open("./GameRoomPage.html");
             //gameName
         });
 
@@ -104,6 +112,7 @@ function ajaxRefreshGameRooms()
         success: function(gamerooms){
             RefreshGameRooms(gamerooms);
         }
+
     }
 
 
