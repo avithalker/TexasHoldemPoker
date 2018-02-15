@@ -69,9 +69,10 @@ function RefreshGameRooms(GameRooms)
 
 
 
-            })
-            //window.open("./GameRoomPage.html");
-            //gameName
+            });
+
+            window.open("./GameRoomPage.html");
+
         });
 
 
