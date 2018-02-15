@@ -20,7 +20,6 @@ public class GameRoom {
     private GameRoomUserManager roomUserManager;
     private GameManager gameManager;
     private RoomStatuses gameStatus; //todo: remember to change status to pending in the end!!!
-    private boolean isHandStarted;
     private String roomOwner;
     private int roomMaxCapacity;
     private List<WinnerInfo> winners;
@@ -182,8 +181,26 @@ public class GameRoom {
         gameStatus = RoomStatuses.Active;
     }
 
-    public void startHand(){
+    public void startHand() {
         winners = null;
+
+        ActionResult canStart = gameManager.canStartNewHand();
+        if (!canStart.isSucceed()) {
+            System.out.println("ERROR- Can't start new hand " + canStart.getMsgError());
+            return;
+        }
+
+        //if(!isThereAnyHumanActive()){
+        //   showMsgBox("Error","Cant start hand","there is no human player with enough tokens to enter the hand");
+        //  return;
+        // }
+
+        ActionResult result = gameManager.startNewHandRound();
+        if (!result.isSucceed()) {
+            System.out.println("Error- Can't start hand round " + result.getMsgError());
+            return;
+        }
+        gameManager.startNewGambleRound();
     }
 
     public boolean isHandRoundEnded(){
@@ -320,6 +337,19 @@ public class GameRoom {
 
     private void handleEndOfHand(){
         roomUserManager.InitAllReadyStatuses();
+
+        //    if(gameManager.isAllHandsDone()){
+        //      showMsgBox("Info","Can't start new hand","All hands are done. Please load a new game");
+        //    gameManager.forceInitializeNewGame();
+        //   return;
+        //}
+
+        //if(!isThereAnyHumanActiveInTheEntireGame())
+        //{
+        //  showMsgBox("Error","Cant start hand","All human players folded from the game. Please load a new game");
+        // gameManager.forceInitializeNewGame();
+        // return;
+        //}
     }
 
 }
