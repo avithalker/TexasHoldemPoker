@@ -147,24 +147,3 @@ empty request
 "isSuccess": true/false,
 "msgError": "xxx" (if isSuccess=true, empty)
 }
-
-23) IsGameStarted Request- GET action
-
-empty request
-
-24) IsGameStarted Response
-
-{
-"Result": true/false
-}
-
-
-25) IsHandStarted Request- GET action
-
-empty request
-
-26) IsHandStarted Response
-
-{
-"Result": true/false
-}
