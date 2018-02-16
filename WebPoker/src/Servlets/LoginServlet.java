@@ -40,12 +40,15 @@ public class LoginServlet extends HttpServlet {
         resp.sendRedirect(LOBBY_PAGE_URL);
     }
 
-    private PlayerSignInDto getPlayerSignInDtoFromRequest(HttpServletRequest req)
-    {
+    private PlayerSignInDto getPlayerSignInDtoFromRequest(HttpServletRequest req) {
         PlayerSignInDto playerSignInDto = new PlayerSignInDto();
         playerSignInDto.setPlayerName(req.getParameter("playerName"));
-        playerSignInDto.setComputer(req.getParameter("isComputer")== null? false:true);
-        playerSignInDto.setHuman(req.getParameter("isHuman")== null? false:true);
+        String type = req.getParameter("playerType");
+        if (type == "computer") {
+            playerSignInDto.setComputer(true);
+        } else {
+            playerSignInDto.setComputer(false);
+        }
         return playerSignInDto;
     }
 }

@@ -102,7 +102,7 @@ public class GameRoom {
 
     public SimpleResultDto isComputerType(String playerName){
         PlayerSignInDto playerInfo = roomUserManager.getUser(playerName);
-        SimpleResultDto resultDto = new SimpleResultDto(!playerInfo.isHuman());
+        SimpleResultDto resultDto = new SimpleResultDto(playerInfo.isComputer());
         return resultDto;
     }
 
