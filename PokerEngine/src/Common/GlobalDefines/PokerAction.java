@@ -44,6 +44,7 @@ public enum PokerAction {
             case 2: return CHECK;
             case 3: return RAISE;
             case 4: return FOLD;
+            case 5: return CALL;
             default: return NONE;
         }
 
