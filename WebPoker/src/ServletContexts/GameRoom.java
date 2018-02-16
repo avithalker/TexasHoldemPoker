@@ -100,6 +100,12 @@ public class GameRoom {
         return gameGeneralInfoDto;
     }
 
+    public SimpleResultDto isComputerType(String playerName){
+        PlayerSignInDto playerInfo = roomUserManager.getUser(playerName);
+        SimpleResultDto resultDto = new SimpleResultDto(!playerInfo.isHuman());
+        return resultDto;
+    }
+
     public PlayerInfoDto[] getPlayersInfo() throws InvalidOperationException{
         PlayerInfo[] playersInfo = gameManager.getPlayersStatus();
         PlayerInfoDto[] playersInfoDto = new PlayerInfoDto[playersInfo.length];
