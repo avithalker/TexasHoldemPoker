@@ -5,6 +5,8 @@ var is_hand_started="false"
 var interval_id_hand_started;
 var interval_id_game_started;
 var interval_id_my_turn;
+var bet_value;
+var raise_value;
 
 
 
@@ -73,7 +75,7 @@ function  ajaxIsGameStarted()
     {
         clearInterval(interval_id_game_started);
         setGameStarted();
-        setInterval(ajaxIsHandStarted(),refreshRate);
+
     }
 }
 
@@ -95,8 +97,19 @@ function ajaxBuyTokens()
     });
 }
 
+function setUiGameStartedMode()
+{
+
+}
+
+
 function setGameStarted()
 {
+    setUiGameStartedMode();
+    setInterval(ajaxGetPlayersInfo(),refreshRate); //refresh players table
+
+    //question we need to ask during "game has started" mode:
+    setInterval(ajaxIsHandStarted(),refreshRate);
 
 }
 
@@ -183,13 +196,156 @@ function ajaxIsMyTurn()
 }
 
 
+function ajaxFoldAction()
+{
+    $.ajax({
+
+        url:"/GameRoom/makeAction",
+        type:'POST',
+        data:"action=4value=0",
+        success: function(r){
+            if(r.isSuccess==false)
+            {
+                window.alert(r.msgError);
+            }
+        }
+
+    });
+}
+
+function ajaxCheckAction()
+{
+    $.ajax({
+        url:"/GameRoom/makeAction",
+        type:'POST',
+        data:"action=2value=0",
+        success: function(r){
+            if(r.isSuccess==false)
+            {
+                window.alert(r.msgError);
+            }
+        }
+
+    });
+}
+
+
+function ajaxBetAction()
+{
+    bet_value=$("#bet_value").textContent;
+
+    $.ajax({
+
+        url:"/GameRoom/makeAction",
+        type:'POST',
+        data:"action=1value="+bet_value,
+        success: function(r){
+            if(r.isSuccess==false)
+            {
+                window.alert(r.msgError);
+            }
+        }
+
+    });
+}
+
+
+function ajaxRaiseAction()
+{
+    raise_value=$("#raise_value_button").textContent;
+
+    $.ajax({
+
+        url:"/GameRoom/makeAction",
+        type:'POST',
+        data:"action=3value="+raise_value,
+        success: function(r){
+            if(r.isSuccess==false)
+            {
+                window.alert(r.msgError);
+            }
+        }
+
+    });
+}
+
+
+function ajaxCallAction()
+{
+    $.ajax({
+
+        url:"/GameRoom/makeAction",
+        type:'POST',
+        data:"action=5value=0",
+        success: function(r){
+            if(r.isSuccess==false)
+            {
+                window.alert(r.msgError);
+            }
+        }
+
+    });
+}
+
+function  setPlayersTable(playersdata){
+
+    $("#PlayersDetailsTable").empty();
+
+    $('<tr>'+"<th>Name</th>"+"<th>Type</th>"+"<th>Tokens</th>"+"<th>Total Buys</th>"+"<th>Total Winnings</th>"+"<th>Total Hands Played</th>"+'</tr>').appendTo($("#PlayersDetailsTable"));
+
+    $.each(playersdata || [], function (index,player_detail) {
+
+
+        $('<tr>' + '<td>' + player_detail.playerName + '</td>' + '<td>' +player_detail.playerType+ '</td>' + '<td>' +player_detail.tokens+'</td>' + '<td>' +player_detail.totalBuys+'</td>'+ '<td>' +player_detail.totalWins+'</td>'+ '<td>' +player_detail.totalHandsPlayed+'</td>'
+           +'</tr>').appendTo($("#PlayersDetailsTable"));
+
+
+    });
+}
+
+function ajaxGetPlayersInfo()
+{
+    $.ajax({
+
+        url:"/GameRoom/PlayersInfo",
+        type:'GET',
+        success: function(res){
+            setPlayersTable(res);
+        }
+
+
+    })
+}
+
+
+
+function  initializeButtons(){
+
+    $("#ready_button").disabled=true;
+    $("#buy_tokens_buttons").disabled=true;
+    $("#fold_button").disabled=true;
+    $("#call_button").disabled=true;
+    $("#bet_button").disabled=true;
+    $("#check_button").disabled=true;
+    $("#raise_button").disabled=true;
+    $("#exit_game_button").disabled=
+
+}
+
 $(function(){
 
     ajaxGetGameDetails();
+    initializeButtons();
 
     //override click action buttons
     $("#ready_button").click(function(){ajaxReadyToStart();});
     $("#buy_tokens_button").click(function(){ajaxBuyTokens();});
+    $("#fold_button").click(function(){ajaxFoldAction();});
+    $("#call_button").click(function(){ajaxCallAction();});
+    $("#bet_button").click(function(){ajaxBetAction();});
+    $("#check_button").click(function(){ajaxCheckAction();});
+    $("#raise_button").click(function(){ajaxRaiseAction();});
+
 
     interval_id_game_started=setInterval(ajaxIsGameStarted(),refreshRate);
     //here the game  already started
