@@ -36,6 +36,12 @@ public enum PokerAction {
         public String toString() {
             return "Raise";
         }
+    },
+    COMPUTER{
+        @Override
+        public String toString() {
+            return "Computer move";
+        }
     };
 
     public static PokerAction parseFromInt(int action){
@@ -45,6 +51,7 @@ public enum PokerAction {
             case 3: return RAISE;
             case 4: return FOLD;
             case 5: return CALL;
+            case 0: return COMPUTER;
             default: return NONE;
         }
 

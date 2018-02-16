@@ -3,6 +3,8 @@ package ServletContexts;
 import Business.GameManager;
 import Business.GameSettings;
 import Common.ActionResult;
+import Common.ExternalPlayer.ComputerPlayer;
+import Common.ExternalPlayer.IExternalPlayer;
 import Common.GlobalDefines.PlayerTypes;
 import Common.GlobalDefines.PokerAction;
 import Common.GlobalDefines.RoomStatuses;
@@ -273,6 +275,14 @@ public class GameRoom {
                 result = gameManager.Raise(playerId,value);
                 break;
             }
+            case COMPUTER:{
+                PlayerSignInDto playerInfo = roomUserManager.getUser(playerName);
+                if(!playerInfo.isComputer())
+                    return new ActionResult(false,"Error- only computer players can ask for poker action-computer!");
+
+                result = handleComputerPlayerTurn(playerName);
+                break;
+            }
             default:{
                 result = new ActionResult(false,"Error- invalid action type");
                 break;
@@ -314,6 +324,21 @@ public class GameRoom {
         }
 
         return gameManager.registerPlayers(playerRegistrations,false);
+    }
+
+    private ActionResult handleComputerPlayerTurn(String playerName){
+        ActionResult actionResult;
+        IExternalPlayer playerInterface = new ComputerPlayer();
+        PlayerInfo currPlayerInfo = gameManager.getPlayerInfoById(gameManager.findPlayerIdByName(playerName));
+        PokerTableView pokerTableView = gameManager.getTableView();
+        PokerAction playerAction = playerInterface.GetNextAction(currPlayerInfo, pokerTableView);
+        actionResult = gameManager.isPokerActionValid(currPlayerInfo.getPlayerId(),playerAction);
+        if(!actionResult.isSucceed())
+            return actionResult;
+        if(actionResult.isSucceed()) {
+            actionResult = executeComputerPlayerAction(playerInterface,currPlayerInfo,pokerTableView,playerAction);
+        }
+        return actionResult;
     }
 
     private void handlePlayerEndTurn() {
@@ -387,6 +412,34 @@ public class GameRoom {
         // gameManager.forceInitializeNewGame();
         // return;
         //}
+    }
+
+    private ActionResult executeComputerPlayerAction(IExternalPlayer playerInterface, PlayerInfo playerInfo, PokerTableView tableView, PokerAction playerAction){
+        switch (playerAction) {
+            case FOLD: {
+                playerInterface.Fold(playerInfo,tableView);
+                return gameManager.Fold(playerInfo.getPlayerId());
+            }
+            case CALL: {
+                playerInterface.Call(playerInfo,tableView);
+                return gameManager.Call(playerInfo.getPlayerId());
+            }
+            case CHECK: {
+                playerInterface.Check(playerInfo,tableView);
+                return gameManager.Check(playerInfo.getPlayerId());
+            }
+            case BET: {
+                int betValue = playerInterface.Bet(playerInfo,tableView);
+                return gameManager.Bet(playerInfo.getPlayerId(),betValue);
+            }
+            case RAISE: {
+                int raiseValue = playerInterface.Raise(playerInfo,tableView);
+                return gameManager.Raise(playerInfo.getPlayerId(),raiseValue);
+            }
+            default: {
+                return new ActionResult(false,"Invalid poker action");
+            }
+        }
     }
 
 }
