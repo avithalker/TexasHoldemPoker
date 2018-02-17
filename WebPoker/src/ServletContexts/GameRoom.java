@@ -133,6 +133,7 @@ public class GameRoom {
 
         int i = 0;
         for(PlayerInfo player : playersInfo){
+            playersGameStatusDto[i] = new PlayerGameStatusDto();
             playersGameStatusDto[i].setPlayerName(player.getPlayerName());
             playersGameStatusDto[i].setCurrentBet(player.getCurrentBet());
             playersGameStatusDto[i].setLastAction(player.getLastAction().toString());
