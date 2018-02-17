@@ -8,6 +8,10 @@ var interval_id_game_started;
 var interval_id_my_turn;
 var bet_value;
 var raise_value;
+var players_array=["#player1","#player2","#player3","#player4","#player5","#player6"];
+var cards1_images_array=["#card1pl1","#card1pl2","#card1pl3","#card1pl4","#card1pl5","#card1pl6"];
+var cards2_images_array=["#card1p21","#card2pl2","#card2pl3","#card2pl4","#card2pl5","#card2pl6"];
+
 
 
 
@@ -188,6 +192,85 @@ function setUiHandStarted()
 }
 
 
+function setPlayersGameStatus(players)
+{
+
+
+    /*<div id="player2" class="players">
+            <table class="tableplayer">
+                <tr>
+                    <th>Name:</th>
+                    <td></td>
+                </tr>
+                </tr>
+                <th>Title</th>
+                <td></td>
+                </tr>
+                <tr>
+                    <th>Tokens:</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Current Bet:</th>
+                    <td></td>
+                </tr>
+                <tr>
+                    <th>Last Action:</th>
+                    <td></td>
+                </tr>
+            </table>
+            <div class="card1">
+
+            </div>
+            <div class="card2">
+
+            </div>
+        </div>*/
+    var index=0;
+    $.each(players || [], function (index,player_detail) {
+
+        //  <img id="table" src="../Pages/table.png" />
+
+        var card1_src= "./cards/"+player_detail.playerCards[0]+".png";
+        var card2_src= "./cards/"+player_detail.playerCards[1]+".png";
+
+
+        $('<table>'+'<tr>'+'<th>'+'Name:'+'</th>'+'<td>'+player_detail.playerName+'</td>'+'</tr>'
+
+                +'<tr>'+'<th>'+'Title:'+'</th>'+'<td>'+player_detail.playerTitle+'</td>'+'</tr>'
+
+                    +'<tr>'+'<th>'+'Tokens:'+'</th>'+'<td>'+player_detail.tokens+'</td>'+'</tr>'
+
+                    +'<tr>'+'<th>'+'Current Bet'+'</th>'+'<td>'+player_detail.currentBet+'</td>'+'</tr>'
+
+                    +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>'+'<img  src=card1_src />'+'<img  src=card2_src />').appendTo($(players_array[index]));
+
+
+
+
+
+
+    });
+}
+
+function ajaxGetPlayersTableInfo()
+{
+    $.ajax({
+
+        url:"/GameRoom/PlayersGameStatus",
+        type:'GET',
+        success: function(players){
+
+            setPlayersGameStatus(players);
+        }
+
+
+
+    });
+}
+
+
+
 
 function setHandStarted()
 {
@@ -195,7 +278,7 @@ function setHandStarted()
     setUiHandStarted(); //update data in UI to hand started mode
     setInterval(ajaxIsHandEnded(),refreshRate);
     setInterval(ajaxIsMyTurn(),refreshRate);
-    //get players details in table
+    setInterval(ajaxGetPlayersTableInfo,refreshRate);
     //get table details
 
 }
@@ -420,7 +503,7 @@ $(function(){
 
     initializeButtons();
     ajaxGetGameDetails();
-
+    //get player's type.
     //override click action buttons
     $("#ready_button").click(function(){ajaxReadyToStart();});
     $("#buy_tokens_button").click(function(){ajaxBuyTokens();});
@@ -431,11 +514,5 @@ $(function(){
     $("#raise_button").click(function(){ajaxRaiseAction();});
 
     interval_id_game_started=setInterval(ajaxIsGameStarted(),refreshRate);
-
-
-
-
-
-
 
 });
