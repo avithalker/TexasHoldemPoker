@@ -224,12 +224,12 @@ function ajaxReadyToStart()
     if(is_ready=="true")
     {
         is_ready="false";
-        $("#ready_button").value("Not Ready");
+        $("#ready_button").attr('value','Not Ready');
     }
     else
     {
         is_ready="true";
-        $("#ready_button").value("Ready");
+        $("#ready_button").attr('value',"I'm Ready");
 
     }
     $.ajax(
@@ -254,7 +254,7 @@ function ajaxReadyToStart()
 
 function setUiMyTurn()
 {
-    
+
 }
 
 
@@ -430,9 +430,12 @@ $(function(){
     $("#check_button").click(function(){ajaxCheckAction();});
     $("#raise_button").click(function(){ajaxRaiseAction();});
 
-
     interval_id_game_started=setInterval(ajaxIsGameStarted(),refreshRate);
-    //here the game  already started
+
+
+
+
+
 
 
 });
