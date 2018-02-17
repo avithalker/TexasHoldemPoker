@@ -1,7 +1,7 @@
 1) MakePokerAction Request- POST action
 
 {
-"action": 1-Bet 2-Check 3-Raise 4-Fold,
+"action": 1-Bet 2-Check 3-Raise 4-Fold 5-call,
 "value": xx (for Bet and Raise only)
 }
 
@@ -179,4 +179,14 @@ empty request
         "isCheckValid": true/false
         "isFoldValid": true/false
         "isRaiseValid": true/false
+}
+
+29) IsComputerType Request- GET action
+
+empty request
+
+30) IsComputerType Response
+
+{
+"Result": true/false
 }
