@@ -191,3 +191,11 @@ empty request
 {
 "Result": true/false
 }
+
+31) ExistRoom Request- POST action (dont make it as ajax. use form. only avilable between hands.)
+
+empty request
+
+32) ExitRoom Response
+
+i will redirect you to the lobby page.
