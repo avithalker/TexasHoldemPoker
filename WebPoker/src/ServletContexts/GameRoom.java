@@ -23,6 +23,7 @@ public class GameRoom {
     private GameRoomUserManager roomUserManager;
     private GameManager gameManager;
     private RoomStatuses gameStatus; //todo: remember to change status to pending in the end!!!
+    private boolean isFirstHandStarted; // todo: remember to change it to false in the end!!!
     private String roomOwner;
     private int roomMaxCapacity;
     private List<WinnerInfo> winners;
@@ -30,6 +31,7 @@ public class GameRoom {
     public GameRoom(String roomOwner){
         this.roomOwner = roomOwner;
         roomMaxCapacity = 0;
+        isFirstHandStarted = false;
         gameStatus = RoomStatuses.Pending;
         roomUserManager = new GameRoomUserManager();
         gameManager = new GameManager();
@@ -41,6 +43,11 @@ public class GameRoom {
 
     public void leaveRoom(String playerName){
         roomUserManager.removeUser(playerName);
+        if(gameStatus == RoomStatuses.Active){
+            if (roomUserManager.isAllReady()) {
+                startHand();
+            }
+        }
     }
 
     public boolean setPlayerIsReadyStatus(String playerName,boolean isReady) {
@@ -212,14 +219,17 @@ public class GameRoom {
             System.out.println("Error- Can't start hand round " + result.getMsgError());
             return;
         }
+        isFirstHandStarted = true;
         gameManager.startNewGambleRound();
     }
 
     public boolean isHandRoundEnded(){
+        if(!isFirstHandStarted)
+            return true;
         return gameManager.isHandRoundEnded();
     }
 
-    public boolean isHandRoundStarted(){
+    public boolean isHandRoundStarted() {
         return gameManager.isHandRoundStarted();
     }
 
