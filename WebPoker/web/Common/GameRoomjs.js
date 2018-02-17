@@ -119,13 +119,21 @@ function setUiGameStartedMode()
 }
 
 
+function ajaxIsGameEnded()
+{
+
+}
+
+
 function setGameStarted()
 {
     setUiGameStartedMode();
-    setInterval(ajaxGetPlayersInfo(),refreshRate); //refresh players table
+    setInterval(ajaxGetPlayersInfo(),refreshRate); //refresh players' data in the table
+    setInterval(ajaxGetPlayersGameStatus,refreshRate) //refresh players data in the board
 
     //question we need to ask during "game has started" mode:
     setInterval(ajaxIsHandStarted(),refreshRate);
+    setInterval(ajaxIsGameEnded(),refreshRate);
 }
 
 
@@ -143,9 +151,6 @@ function ajaxIsHandEnded()
               setHandEndedMode();
             }
         }
-
-
-
 
     });
 }
@@ -173,6 +178,8 @@ function setHandEndedMode()
     //GetWinnersrequest
     ajaxGetWinners();
 
+    //restart new hand
+    interval_id_hand_started=setInterval(ajaxIsHandStarted(),refreshRate);
 
 }
 
@@ -243,8 +250,11 @@ function setPlayersGameStatus(players)
 
                     +'<tr>'+'<th>'+'Current Bet'+'</th>'+'<td>'+player_detail.currentBet+'</td>'+'</tr>'
 
-                    +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>'+'<img  src=card1_src />'+'<img  src=card2_src />').appendTo($(players_array[index]));
+                    +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>'+'<img class="card1"/>'+'<img  class="card2" />').appendTo($(players_array[index]));
 
+
+                $(player_detail[index], img.card1).attr('src',card1_src);
+                $(player_detail[index], img.card2).attr('src',card2_src);
 
 
 
@@ -253,7 +263,7 @@ function setPlayersGameStatus(players)
     });
 }
 
-function ajaxGetPlayersTableInfo()
+function ajaxGetPlayersGameStatus()
 {
     $.ajax({
 
@@ -262,6 +272,8 @@ function ajaxGetPlayersTableInfo()
         success: function(players){
 
             setPlayersGameStatus(players);
+
+
         }
 
 
@@ -512,6 +524,7 @@ $(function(){
     $("#bet_button").click(function(){ajaxBetAction();});
     $("#check_button").click(function(){ajaxCheckAction();});
     $("#raise_button").click(function(){ajaxRaiseAction();});
+    $("#exit_game_button").click(function(){})
 
     interval_id_game_started=setInterval(ajaxIsGameStarted(),refreshRate);
 
