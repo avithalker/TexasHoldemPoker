@@ -3,6 +3,7 @@ var is_ready="false";
 var is_game_started="false";
 var is_hand_started="false"
 var interval_id_hand_started;
+var interval_id_hand_ended;
 var interval_id_game_started;
 var interval_id_my_turn;
 var bet_value;
@@ -99,6 +100,17 @@ function ajaxBuyTokens()
 
 function setUiGameStartedMode()
 {
+    $("#ready_button").disabled=false;
+    $("#buy_tokens_button").disabled=false;
+    $("#exit_game_button").disabled=false;
+    $("#fold_button").disabled=true;
+    $("#call_button").disabled=true;
+    $("#check_button").disabled=true;
+    $("#bet_button").disabled=true;
+    $("#raise_button").disables=true;
+    $("#raise_value_button").disabled=true;
+    $("#bet_value_button").disabled=true;
+
 
 }
 
@@ -110,15 +122,81 @@ function setGameStarted()
 
     //question we need to ask during "game has started" mode:
     setInterval(ajaxIsHandStarted(),refreshRate);
+}
+
+
+function ajaxIsHandEnded()
+{
+    $.ajax({
+
+        url:"/GameRoom/isHandRoundEnded",
+        type:'GET',
+        success: function(res){
+
+            if(res.Result==true)
+            {
+              clearInterval(interval_id_hand_ended);
+              setHandEndedMode();
+            }
+        }
+
+
+
+
+    });
+}
+
+function ajaxGetWinners()
+{
+    $.ajax({
+
+        url:"/GameRoom/winners",
+        type:'GET',
+        success: function(winners){
+
+            //display winners
+
+
+        }
+
+});
 
 }
+
+
+function setHandEndedMode()
+{
+    //GetWinnersrequest
+    ajaxGetWinners();
+
+
+}
+
+function setUiHandStarted()
+{
+    $("#ready_button").disabled=true;
+    $("#buy_tokens_button").disabled=true;
+    $("#exit_game_button").disabled=true;
+    $("#fold_button").disabled=false;
+    $("#call_button").disabled=false;
+    $("#check_button").disabled=false;
+    $("#bet_button").disabled=false;
+    $("#raise_button").disables=false;
+    $("#raise_value_button").disabled=false;
+    $("#bet_value_button").disabled=false;
+
+}
+
 
 
 function setHandStarted()
 {
 
     setUiHandStarted(); //update data in UI to hand started mode
+    setInterval(ajaxIsHandEnded(),refreshRate);
     setInterval(ajaxIsMyTurn(),refreshRate);
+    //get players details in table
+    //get table details
 
 }
 
@@ -171,6 +249,12 @@ function ajaxReadyToStart()
         }
     );
 
+}
+
+
+function setUiMyTurn()
+{
+    
 }
 
 
@@ -328,14 +412,14 @@ function  initializeButtons(){
     $("#bet_button").disabled=true;
     $("#check_button").disabled=true;
     $("#raise_button").disabled=true;
-    $("#exit_game_button").disabled=
+    $("#exit_game_button").disabled=false;
 
 }
 
 $(function(){
 
-    ajaxGetGameDetails();
     initializeButtons();
+    ajaxGetGameDetails();
 
     //override click action buttons
     $("#ready_button").click(function(){ajaxReadyToStart();});
