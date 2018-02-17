@@ -114,6 +114,7 @@ public class GameRoom {
 
         int i = 0;
         for(PlayerInfo player : playersInfo){
+            playersInfoDto[i] = new PlayerInfoDto();
             playersInfoDto[i].setPlayerName(player.getPlayerName());
             playersInfoDto[i].setPlayerType(player.getPlayerType().toString());
             playersInfoDto[i].setTokens(player.getTokens());
