@@ -112,7 +112,8 @@ empty request
 			"tokens": xxx,
 			"currentBet": xxx,
 			"playerCards": ["xx","yy"],
-			"lastAction": "xxx"
+			"lastAction": "xxx",
+			"isActive": true/false
 		}
 	]
 }

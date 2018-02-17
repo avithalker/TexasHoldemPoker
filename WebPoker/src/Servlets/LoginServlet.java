@@ -44,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         PlayerSignInDto playerSignInDto = new PlayerSignInDto();
         playerSignInDto.setPlayerName(req.getParameter("playerName"));
         String type = req.getParameter("playerType");
-        if (type == "computer") {
+        if (type.compareTo("computer") == 0) {
             playerSignInDto.setComputer(true);
         } else {
             playerSignInDto.setComputer(false);

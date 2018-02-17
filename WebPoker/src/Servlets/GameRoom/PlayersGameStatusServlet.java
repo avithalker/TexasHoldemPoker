@@ -35,6 +35,7 @@ public class PlayersGameStatusServlet extends HttpServlet {
 
         try {
             PlayerGameStatusDto[] playersGameStatus = gameRoom.getPlayersGameStatus();
+            hidePlayersCards(userName,playersGameStatus);
             Gson jsonParser = new Gson();
             String playersGameStatusJson = jsonParser.toJson(playersGameStatus);
 
@@ -48,5 +49,17 @@ public class PlayersGameStatusServlet extends HttpServlet {
 
         }
 
+    }
+
+    private void hidePlayersCards(String currPlayerName,PlayerGameStatusDto[] playersGameStatus){
+        String [] hiddenCards ={"card","card"};
+        for(int i = 0;i < playersGameStatus.length;i++){
+            if(!playersGameStatus[i].isActive())
+                continue;
+            if(playersGameStatus[i].getPlayerName().compareTo(currPlayerName) == 0)
+                continue;
+
+            playersGameStatus[i].setPlayerCards(hiddenCards);
+        }
     }
 }

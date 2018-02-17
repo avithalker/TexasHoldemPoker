@@ -7,6 +7,7 @@ public class PlayerGameStatusDto {
     private int currentBet;
     private String[] playerCards;
     private String lastAction;
+    private boolean isActive;
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
@@ -30,5 +31,17 @@ public class PlayerGameStatusDto {
 
     public void setLastAction(String lastAction) {
         this.lastAction = lastAction;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public String getPlayerName() {
+        return playerName;
     }
 }

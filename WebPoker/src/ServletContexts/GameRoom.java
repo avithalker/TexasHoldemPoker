@@ -139,6 +139,7 @@ public class GameRoom {
             playersGameStatusDto[i].setPlayerTitle(player.getPlayerTitle().toString());
             playersGameStatusDto[i].setTokens(player.getTokens());
             playersGameStatusDto[i].setPlayerCards(player.getPlayerCards());
+            playersGameStatusDto[i].setActive(gameManager.isAnActivePlayer(player.getPlayerId()));
             i++;
         }
 
