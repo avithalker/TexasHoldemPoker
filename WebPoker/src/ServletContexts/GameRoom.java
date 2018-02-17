@@ -413,6 +413,8 @@ public class GameRoom {
     private void handleEndOfHand(){
         roomUserManager.InitAllReadyStatuses();
 
+        //todo: if game ended dont forget to change the gameStatus to end
+
         //    if(gameManager.isAllHandsDone()){
         //      showMsgBox("Info","Can't start new hand","All hands are done. Please load a new game");
         //    gameManager.forceInitializeNewGame();

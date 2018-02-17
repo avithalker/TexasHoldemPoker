@@ -156,7 +156,7 @@ empty request
 24) IsHandStarted Response
 
 {
-"Result": true/false
+"result": true/false
 }
 
 25) IsGameStarted Request- GET action
@@ -189,7 +189,7 @@ empty request
 30) IsComputerType Response
 
 {
-"Result": true/false
+"result": true/false
 }
 
 31) ExistRoom Request- POST action (dont make it as ajax. use form. only avilable between hands.)
@@ -199,3 +199,13 @@ empty request
 32) ExitRoom Response
 
 i will redirect you to the lobby page.
+
+33) IsGameEnded Request - GET action
+
+empty request
+
+34) IsGameEnded Response
+
+{
+"result": true/false
+}

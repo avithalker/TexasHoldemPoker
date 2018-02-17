@@ -29,8 +29,10 @@ public class ExitRoomServlet extends HttpServlet {
 
         GameRoomManager lobby = ServletContextUtils.getServerLobby(getServletContext());
         GameRoom gameRoom = lobby.getRoomByPlayer(userName);
-        if(gameRoom == null)
-            throw new ServletException("Error- player didn't join to a game room!");
+        if(gameRoom == null) {
+            resp.sendRedirect(LOBBY_PAGE_URL);
+            return;
+        }
 
         RoomStatuses roomStatus = gameRoom.getGameStatus();
 
