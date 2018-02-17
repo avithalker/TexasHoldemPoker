@@ -8,6 +8,7 @@ var interval_id_game_started;
 var interval_id_my_turn;
 var bet_value;
 var raise_value;
+var computer=false;
 var players_array=["#player1","#player2","#player3","#player4","#player5","#player6"];
 var cards1_images_array=["#card1pl1","#card1pl2","#card1pl3","#card1pl4","#card1pl5","#card1pl6"];
 var cards2_images_array=["#card1p21","#card2pl2","#card2pl3","#card2pl4","#card2pl5","#card2pl6"];
@@ -68,20 +69,15 @@ function  ajaxIsGameStarted()
     $.ajax({
         url: "/GameRoom/isGameStarted",
         success: function(r) {
-            if(r.isSucceed == true)
+            if(r.result == true)
             {
-                is_game_started="true";
+                clearInterval(interval_id_game_started);
+                setGameStarted();
             }
 
         }
     });
 
-    if(is_game_started=="true")
-    {
-        clearInterval(interval_id_game_started);
-        setGameStarted();
-
-    }
 }
 
 function ajaxBuyTokens()
@@ -121,19 +117,19 @@ function setUiGameStartedMode()
 
 function ajaxIsGameEnded()
 {
-
+    //todo:servlet for is game ended...
 }
 
 
 function setGameStarted()
 {
     setUiGameStartedMode();
-    setInterval(ajaxGetPlayersInfo(),refreshRate); //refresh players' data in the table
-    setInterval(ajaxGetPlayersGameStatus,refreshRate) //refresh players data in the board
+    setInterval(ajaxGetPlayersInfo,refreshRate); //refresh players' data in the table
+
 
     //question we need to ask during "game has started" mode:
-    setInterval(ajaxIsHandStarted(),refreshRate);
-    setInterval(ajaxIsGameEnded(),refreshRate);
+    setInterval(ajaxIsHandStarted,refreshRate);
+    setInterval(ajaxIsGameEnded,refreshRate);
 }
 
 
@@ -179,7 +175,7 @@ function setHandEndedMode()
     ajaxGetWinners();
 
     //restart new hand
-    interval_id_hand_started=setInterval(ajaxIsHandStarted(),refreshRate);
+    interval_id_hand_started=setInterval(ajaxIsHandStarted,refreshRate);
 
 }
 
@@ -253,8 +249,8 @@ function setPlayersGameStatus(players)
                     +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>'+'<img class="card1"/>'+'<img  class="card2" />').appendTo($(players_array[index]));
 
 
-                $(player_detail[index], img.card1).attr('src',card1_src);
-                $(player_detail[index], img.card2).attr('src',card2_src);
+                $(player_detail[index]+ img.card1).attr('src',card1_src);
+                $(player_detail[index]+ img.card2).attr('src',card2_src);
 
 
 
@@ -288,8 +284,9 @@ function setHandStarted()
 {
 
     setUiHandStarted(); //update data in UI to hand started mode
-    setInterval(ajaxIsHandEnded(),refreshRate);
-    setInterval(ajaxIsMyTurn(),refreshRate);
+    setInterval(ajaxIsHandEnded,refreshRate);
+    setInterval(ajaxGetPlayersGameStatus,refreshRate) //refresh players data in the board
+    setInterval(ajaxIsMyTurn,refreshRate);
     setInterval(ajaxGetPlayersTableInfo,refreshRate);
     //get table details
 
@@ -511,9 +508,27 @@ function  initializeButtons(){
 
 }
 
+
+
+function ajaxPlayerType()
+{
+    $.ajax({
+
+        url: "/GameRoom/isComputerType",
+        type: 'GET',
+        success: function(res){
+
+            computer=res.Result;
+        }
+
+    });
+
+}
+
 $(function(){
 
     initializeButtons();
+    ajaxPlayerType();
     ajaxGetGameDetails();
     //get player's type.
     //override click action buttons
@@ -524,8 +539,9 @@ $(function(){
     $("#bet_button").click(function(){ajaxBetAction();});
     $("#check_button").click(function(){ajaxCheckAction();});
     $("#raise_button").click(function(){ajaxRaiseAction();});
-    $("#exit_game_button").click(function(){})
+    //$("#exit_game_button").click(function(){});
+    interval_id_game_started=setInterval(ajaxIsGameStarted,refreshRate);
 
-    interval_id_game_started=setInterval(ajaxIsGameStarted(),refreshRate);
+
 
 });

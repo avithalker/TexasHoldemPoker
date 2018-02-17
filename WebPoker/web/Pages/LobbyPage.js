@@ -59,7 +59,7 @@ function RefreshGameRooms(GameRooms)
 
                     if (r.isSucceed == true) {
                         alert("Succeeded!!");
-
+                        location.href="./GameRoomPage.html";
                     }
                     else {
                         alert(r.msgError);
@@ -71,7 +71,7 @@ function RefreshGameRooms(GameRooms)
 
             });
 
-            window.open("./GameRoomPage.html");
+
 
         });
 
