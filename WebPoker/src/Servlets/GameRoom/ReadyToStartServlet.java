@@ -50,7 +50,7 @@ public class ReadyToStartServlet extends HttpServlet {
 
     private boolean getIsReadyFromRequest(HttpServletRequest req){
         String isReadyStr = req.getParameter("isReady");
-        if(isReadyStr == "true" || isReadyStr == "True")
+        if(isReadyStr.compareTo("true") == 0  || isReadyStr.compareTo("True") == 0)
             return true;
         return false;
     }
