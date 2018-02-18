@@ -35,6 +35,7 @@ public class GameManager {
     private Player[] pokerPlayers;
     private Player [] activePokerPlayers;
     private GameSettings gameSettings;
+    private String previousSettings;
     private int dealerPlace;
     private int handRoundNo;
     private GambleRoundManager gambleRoundManager;
@@ -221,6 +222,7 @@ public class GameManager {
 
     }
 
+
     public ActionResult loadGameSettingsFromString(String settingContent){
         if(gameStateProcessor.isCurrStateBiggerThen(GameStates.PlayerRegisterd)){
             return new ActionResult(false,"!!! Loading setting is not a valid operation in this part of the game !!!");
@@ -240,6 +242,8 @@ public class GameManager {
                 if(gameSettings.getGameType() == GameTypes.MultiPlayer)
                     result = registerPlayers(gameSettings.getFixedPlayersRegistration(),true);
             }
+            if(result.isSucceed())
+                previousSettings = settingContent;
 
             return result;
         }
@@ -338,6 +342,11 @@ public class GameManager {
         handRoundStateProcessor = new HandRoundStateProcessor();
         replayManager = new HandReplay();
         handRoundNo = 0;
+    }
+
+    public ActionResult forceInitializeNewGameWithSameSettings(){
+        forceInitializeNewGame();
+        return loadGameSettingsFromString(previousSettings);
     }
 
     public GameGeneralInfo getGameGeneralInfo() throws InvalidOperationException{

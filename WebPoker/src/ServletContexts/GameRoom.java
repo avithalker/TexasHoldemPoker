@@ -37,7 +37,16 @@ public class GameRoom {
         gameManager = new GameManager();
     }
 
+    private void initRoomForNewGame() {
+        isFirstHandStarted = false;
+        gameStatus = RoomStatuses.Pending;
+        ActionResult result = gameManager.forceInitializeNewGameWithSameSettings();
+        if (!result.isSucceed())
+            System.out.println("ERROR- FAILED TO INITIALIZE NEW GAME!");
+    }
+
     public boolean joinRoom(PlayerSignInDto playerDetails){
+
         return roomUserManager.addUser(playerDetails);
     }
 
@@ -46,6 +55,11 @@ public class GameRoom {
         if(gameStatus == RoomStatuses.Active){
             if (roomUserManager.isAllReady()) {
                 startHand();
+            }
+        }
+        else if(gameStatus == RoomStatuses.End){
+            if(roomUserManager.getUsersCount() == 0){
+                initRoomForNewGame();
             }
         }
     }
