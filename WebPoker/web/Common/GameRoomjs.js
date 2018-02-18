@@ -297,7 +297,7 @@ function ajaxIsHandStarted()
     $.ajax({
         url: "/GameRoom/isHandStarted",
         success: function(r) {
-            if(r.isSucceed == true)
+            if(r.result == true)
             {
                 is_hand_started="true";
             }
@@ -332,7 +332,7 @@ function ajaxReadyToStart()
             dataType:"json",
             success:function(r){
 
-                if(r.isSuccess==false)
+                if(r.isSucceed==false)
                 {
                     window.alert(r.msgError);
                 }
