@@ -1,7 +1,7 @@
 var refreshRate=2000;
 var is_ready="false";
 var is_game_started="false";
-var is_hand_started="false"
+var is_hand_started="false";
 var interval_id_hand_started;
 var interval_id_hand_ended;
 var interval_id_game_started;
@@ -124,7 +124,7 @@ function ajaxIsGameEnded()
 function setGameStarted()
 {
     setUiGameStartedMode();
-    setInterval(ajaxGetPlayersInfo,refreshRate); //refresh players' data in the table
+    setInterval(ajaxGetPlayersTableInfo,refreshRate); //refresh players' data in the table
 
 
     //question we need to ask during "game has started" mode:
@@ -287,7 +287,7 @@ function setHandStarted()
     setInterval(ajaxIsHandEnded,refreshRate);
     setInterval(ajaxGetPlayersGameStatus,refreshRate) //refresh players data in the board
     setInterval(ajaxIsMyTurn,refreshRate);
-    setInterval(ajaxGetPlayersTableInfo,refreshRate);
+
     //get table details
 
 }
@@ -316,12 +316,12 @@ function ajaxReadyToStart()
     if(is_ready=="true")
     {
         is_ready="false";
-        $("#ready_button").attr('value','Not Ready');
+        $("#ready_button").attr('value',"I'm Ready");
     }
     else
     {
         is_ready="true";
-        $("#ready_button").attr('value',"I'm Ready");
+        $("#ready_button").attr('value',"Not Ready");
 
     }
     $.ajax(
@@ -479,7 +479,7 @@ function  setPlayersTable(playersdata){
     });
 }
 
-function ajaxGetPlayersInfo()
+function ajaxGetPlayersTableInfo()
 {
     $.ajax({
 
