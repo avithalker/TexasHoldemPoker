@@ -229,13 +229,22 @@ function setPlayersGameStatus(players)
 
             </div>
         </div>*/
+    $("#player1").empty();
+    $("#player2").empty();
+    $("#player3").empty();
+    $("#player4").empty();
+    $("#player5").empty();
+    $("#player6").empty();
+
+
     var index=0;
     $.each(players || [], function (index,player_detail) {
 
         //  <img id="table" src="../Pages/table.png" />
 
-        var card1_src= "./cards/"+player_detail.playerCards[0]+".png";
-        var card2_src= "./cards/"+player_detail.playerCards[1]+".png";
+        var card1_src= "../Common/cards/"+player_detail.playerCards[0]+".png";
+        var card2_src= "../Common/cards/"+player_detail.playerCards[1]+".png";
+
 
 
         $('<table>'+'<tr>'+'<th>'+'Name:'+'</th>'+'<td>'+player_detail.playerName+'</td>'+'</tr>'
@@ -249,11 +258,11 @@ function setPlayersGameStatus(players)
                     +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>'+'<img class="card1"/>'+'<img  class="card2" />').appendTo($(players_array[index]));
 
 
-                $(player_detail[index]+ img.card1).attr('src',card1_src);
-                $(player_detail[index]+ img.card2).attr('src',card2_src);
 
+        $('<img />').attr('src', card1_src).appendTo($(players_array[index]));
+        $('<img />').attr('src', card2_src).appendTo($(players_array[index]));
 
-
+                index=index+1;
 
 
     });
@@ -285,7 +294,7 @@ function setHandStarted()
 
     setUiHandStarted(); //update data in UI to hand started mode
     setInterval(ajaxIsHandEnded,refreshRate);
-    setInterval(ajaxGetPlayersGameStatus,refreshRate) //refresh players data in the board
+    setInterval(ajaxGetPlayersGameStatus,refreshRate); //refresh players data in the board
     setInterval(ajaxIsMyTurn,refreshRate);
 
     //get table details
