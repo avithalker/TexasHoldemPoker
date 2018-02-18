@@ -10,8 +10,7 @@ var bet_value;
 var raise_value;
 var computer=false;
 var players_array=["#player1","#player2","#player3","#player4","#player5","#player6"];
-var cards1_images_array=["#card1pl1","#card1pl2","#card1pl3","#card1pl4","#card1pl5","#card1pl6"];
-var cards2_images_array=["#card1p21","#card2pl2","#card2pl3","#card2pl4","#card2pl5","#card2pl6"];
+var board_cards=["#card_board1","card_board2","card_board3","card_board4","card_board5","card_board6"];
 
 
 
@@ -255,12 +254,12 @@ function setPlayersGameStatus(players)
 
                     +'<tr>'+'<th>'+'Current Bet'+'</th>'+'<td>'+player_detail.currentBet+'</td>'+'</tr>'
 
-                    +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>'+'<img class="card1"/>'+'<img  class="card2" />').appendTo($(players_array[index]));
+                    +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>').appendTo($(players_array[index]));
 
 
 
-        $('<img />').attr('src', card1_src).appendTo($(players_array[index]));
-        $('<img />').attr('src', card2_src).appendTo($(players_array[index]));
+        $('<img />').addClass("card1").attr('src', card1_src).appendTo($(players_array[index]));
+        $('<img />').addClass("card2").attr('src', card2_src).appendTo($(players_array[index]));
 
                 index=index+1;
 
@@ -288,6 +287,22 @@ function ajaxGetPlayersGameStatus()
 
 
 
+function ajaxGetBoardInfo()
+{
+    $.ajax({
+
+        url:"/GameRoom/tableInfo",
+        type:'GET',
+        success: function(res){
+
+            
+        }
+
+
+    });
+
+}
+
 
 function setHandStarted()
 {
@@ -295,6 +310,7 @@ function setHandStarted()
     setUiHandStarted(); //update data in UI to hand started mode
     setInterval(ajaxIsHandEnded,refreshRate);
     setInterval(ajaxGetPlayersGameStatus,refreshRate); //refresh players data in the board
+    setInterval(ajaxGetBoardInfo,refreshRate); //refresh the data on the table
     setInterval(ajaxIsMyTurn,refreshRate);
 
     //get table details
