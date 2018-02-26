@@ -40,7 +40,8 @@ empty request
 8) IsHandDone Response
 
 {
-"Result": true/false
+"result": true/false,
+"msg":"xxx"
 }
 
 9) GetPlayersInfo Request (this is for filling the players table)- Get action
@@ -207,5 +208,6 @@ empty request
 34) IsGameEnded Response
 
 {
-"result": true/false
+"result": true/false,
+"msg":"xxx"
 }

@@ -11,8 +11,6 @@ import Common.GlobalDefines.RoomStatuses;
 import Common.PlayerUtilities.*;
 import Common.gameExceptions.InvalidOperationException;
 import PokerDtos.*;
-import org.omg.CORBA.DynAnyPackage.Invalid;
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,8 +20,10 @@ public class GameRoom {
 
     private GameRoomUserManager roomUserManager;
     private GameManager gameManager;
-    private RoomStatuses gameStatus; //todo: remember to change status to pending in the end!!!
-    private boolean isFirstHandStarted; // todo: remember to change it to false in the end!!!
+    private RoomStatuses gameStatus;
+    private String gameEndReason = "";
+    private String handEndReason= "";
+    private boolean isFirstHandStarted;
     private String roomOwner;
     private int roomMaxCapacity;
     private List<WinnerInfo> winners;
@@ -40,6 +40,8 @@ public class GameRoom {
     private void initRoomForNewGame() {
         isFirstHandStarted = false;
         gameStatus = RoomStatuses.Pending;
+        gameEndReason = "";
+        handEndReason = "";
         ActionResult result = gameManager.forceInitializeNewGameWithSameSettings();
         if (!result.isSucceed())
             System.out.println("ERROR- FAILED TO INITIALIZE NEW GAME!");
@@ -65,6 +67,8 @@ public class GameRoom {
     }
 
     public boolean setPlayerIsReadyStatus(String playerName,boolean isReady) {
+        if(gameStatus == RoomStatuses.End)
+            return false;
         roomUserManager.setReadyStatus(playerName, isReady);
         if(gameStatus == RoomStatuses.Active) {
             if (roomUserManager.isAllReady()) {
@@ -202,6 +206,14 @@ public class GameRoom {
         return roomMaxCapacity == roomUserManager.getUsersCount();
     }
 
+    public String getGameEndReason() {
+        return gameEndReason;
+    }
+
+    public String getHandEndReason() {
+        return handEndReason;
+    }
+
     public void startGame() throws InvalidOperationException{
         ActionResult result = registerPlayers();
         if(!result.isSucceed())
@@ -216,6 +228,7 @@ public class GameRoom {
 
     public void startHand() {
         winners = null;
+        handEndReason = "";
 
         ActionResult canStart = gameManager.canStartNewHand();
         if (!canStart.isSucceed()) {
@@ -223,10 +236,11 @@ public class GameRoom {
             return;
         }
 
-        //if(!isThereAnyHumanActive()){
-        //   showMsgBox("Error","Cant start hand","there is no human player with enough tokens to enter the hand");
-        //  return;
-        // }
+        if(!isThereAnyHumanActive()) {
+            System.out.println("Cant start hand-there is no human player with enough tokens to enter the hand");
+            endEntireGame("There is no human player with enough tokens to play. game is finished");
+            return;
+        }
 
         ActionResult result = gameManager.startNewHandRound();
         if (!result.isSucceed()) {
@@ -371,7 +385,7 @@ public class GameRoom {
     private void handlePlayerEndTurn() {
 
         if (areAllHumanPlayersFold()) {
-            killHand();
+            killHand("All human players folded");
             return;
         }
 
@@ -379,13 +393,13 @@ public class GameRoom {
             if (!gameManager.isAllActivePlayerHasTokens()) {
                 gameManager.skipAllGambleRounds();
                 System.out.println("Player doesn't have enough tokens- Press the ok button to finish the hand and see the winners");
-                finishHand();
+                finishHand("There is a player which doesn't have enough tokens to continue");
                 return;
             }
             gameManager.startNewGambleRound();
 
             if(gameManager.isHandRoundEnded()){
-                finishHand();
+                finishHand("all gamble rounds ended");
                 return;
             }
         }
@@ -405,17 +419,19 @@ public class GameRoom {
         return true;
     }
 
-    private void killHand(){
+    private void killHand(String endReason){
         System.out.println("Hand was forcibly finish- All human players have folded");
         winners = gameManager.killHand(-1);
+        handEndReason = endReason;
 
         //todo: save the winners!
         handleEndOfHand();
     }
 
-    private void finishHand(){
+    private void finishHand(String endReason){
         try {
              winners = gameManager.finishHandAndGetWinners();
+             handEndReason = endReason;
 
             //todo: save the winners
             handleEndOfHand();
@@ -424,23 +440,55 @@ public class GameRoom {
         }
     }
 
-    private void handleEndOfHand(){
+    private void handleEndOfHand() {
         roomUserManager.InitAllReadyStatuses();
 
-        //todo: if game ended dont forget to change the gameStatus to end
+        if (gameManager.isAllHandsDone()) {
+            System.out.println("All hands have ended. Game is finished");
+            endEntireGame("All hands have ended. Game is finished");
+            return;
+        }
 
-        //    if(gameManager.isAllHandsDone()){
-        //      showMsgBox("Info","Can't start new hand","All hands are done. Please load a new game");
-        //    gameManager.forceInitializeNewGame();
-        //   return;
-        //}
+        if (!isThereAnyHumanActiveInTheEntireGame()) {
+            System.out.println("There is no more human players in the room. Game is finished");
+            endEntireGame("There is no more human players in the room. Game is finished");
+            return;
+        }
+    }
 
-        //if(!isThereAnyHumanActiveInTheEntireGame())
-        //{
-        //  showMsgBox("Error","Cant start hand","All human players folded from the game. Please load a new game");
-        // gameManager.forceInitializeNewGame();
-        // return;
-        //}
+    private void endEntireGame(String endReason){
+        gameStatus = RoomStatuses.End;
+        gameEndReason = endReason;
+    }
+
+    private boolean isThereAnyHumanActiveInTheEntireGame(){
+        try {
+            PlayerInfo[] Players = gameManager.getPlayersStatus();
+            for(PlayerInfo info:Players){
+                if(info.getPlayerType() == PlayerTypes.Human) {
+                    if(!info.isPlayerFoldFromEntireGame())
+                        return true;
+                }
+            }
+        }catch (InvalidOperationException ex){
+            System.out.println("Failed to check 'isThereAnyHumanActiveInTheEntireGame'.you are not allowed to call to getActivePlayersStatus at the moment");
+        }
+        return false;
+    }
+
+    private boolean isThereAnyHumanActive(){
+        try {
+            PlayerInfo[] Players = gameManager.getPlayersStatus();
+            for(PlayerInfo info:Players){
+                if(info.getPlayerType() == PlayerTypes.Human) {
+                    if(gameManager.isAnActivePlayer(info.getPlayerId()))
+                        return true;
+                }
+            }
+        }catch (InvalidOperationException ex){
+            System.out.println("Invalid function call 'isThereAnyHumanActive'-you are not allowed to call to getActivePlayersStatus at the moment");
+        }
+        return false;
     }
 
     private ActionResult executeComputerPlayerAction(IExternalPlayer playerInterface, PlayerInfo playerInfo, PokerTableView tableView, PokerAction playerAction){
@@ -470,5 +518,4 @@ public class GameRoom {
             }
         }
     }
-
 }

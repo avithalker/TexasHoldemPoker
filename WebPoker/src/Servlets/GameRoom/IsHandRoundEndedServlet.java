@@ -1,5 +1,6 @@
 package Servlets.GameRoom;
 
+import PokerDtos.MsgResultDto;
 import PokerDtos.SimpleResultDto;
 import ServletContexts.GameRoom;
 import ServletContexts.GameRoomManager;
@@ -32,7 +33,12 @@ public class IsHandRoundEndedServlet extends HttpServlet {
         if (gameRoom == null)
             throw new ServletException("Error- player didn't join to a game room!");
 
-        SimpleResultDto result = new SimpleResultDto(gameRoom.isHandRoundEnded());
+        MsgResultDto result;
+        if(gameRoom.isHandRoundEnded()){
+            result = new MsgResultDto(true,gameRoom.getHandEndReason());
+        }else {
+            result = new MsgResultDto(false,"");
+        }
 
         Gson jsonParser = new Gson();
         String resultJson = jsonParser.toJson(result);

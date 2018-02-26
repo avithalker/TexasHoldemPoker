@@ -1,6 +1,7 @@
 package Servlets.GameRoom;
 
 import Common.GlobalDefines.RoomStatuses;
+import PokerDtos.MsgResultDto;
 import PokerDtos.SimpleResultDto;
 import ServletContexts.GameRoom;
 import ServletContexts.GameRoomManager;
@@ -32,7 +33,14 @@ public class IsGameEndedServlet extends HttpServlet {
         if(gameRoom == null)
             throw new ServletException("Error- player didn't join to a game room!");
 
-        SimpleResultDto resultDto = new SimpleResultDto(gameRoom.getGameStatus() == RoomStatuses.End);
+        MsgResultDto resultDto;
+        if(gameRoom.getGameStatus() == RoomStatuses.End){
+            resultDto = new MsgResultDto(true,gameRoom.getGameEndReason());
+        }
+        else
+        {
+            resultDto = new MsgResultDto(false,"");
+        }
 
         Gson jsonParser = new Gson();
         String resultJson = jsonParser.toJson(resultDto);
