@@ -10,7 +10,7 @@ var bet_value;
 var raise_value;
 var computer=false;
 var players_array=["#player1","#player2","#player3","#player4","#player5","#player6"];
-var board_cards=["#card_board1","card_board2","card_board3","card_board4","card_board5","card_board6"];
+var board_cards=["#card_board1","#card_board2","#card_board3","#card_board4","#card_board5"];
 
 
 
@@ -99,16 +99,16 @@ function ajaxBuyTokens()
 
 function setUiGameStartedMode()
 {
-    $("#ready_button").disabled=false;
-    $("#buy_tokens_button").disabled=false;
-    $("#exit_game_button").disabled=false;
-    $("#fold_button").disabled=true;
-    $("#call_button").disabled=true;
-    $("#check_button").disabled=true;
-    $("#bet_button").disabled=true;
-    $("#raise_button").disables=true;
-    $("#raise_value_button").disabled=true;
-    $("#bet_value_button").disabled=true;
+    $("#ready_button").prop("disabled", false);
+    $("#buy_tokens_button").prop("disabled", false);
+    $("#exit_game_button").prop("disabled", false);
+    $("#fold_button").prop("disabled", true);
+    $("#call_button").prop("disabled", true);
+    $("#check_button").prop("disabled", true);
+    $("#bet_button").prop("disabled", true);
+    $("#raise_button").prop("disabled", true);
+    $("#raise_value_button").prop("disabled", true);
+    $("#bet_value_button").prop("disabled", true);
 
 
 }
@@ -286,6 +286,18 @@ function ajaxGetPlayersGameStatus()
 }
 
 
+function UpdateTableInfo(res)
+{
+    $(board_cards[0]).attr('src', "../Common/cards/"+res.cards[0]+".png");
+    $(board_cards[1]).attr('src', "../Common/cards/"+res.cards[1]+".png");
+    $(board_cards[2]).attr('src', "../Common/cards/"+res.cards[2]+".png");
+    $(board_cards[3]).attr('src', "../Common/cards/"+res.cards[3]+".png");
+    $(board_cards[4]).attr('src', "../Common/cards/"+res.cards[4]+".png");
+
+    $("#pot_value").attr('value',res.pot);
+
+}
+
 
 function ajaxGetBoardInfo()
 {
@@ -295,7 +307,7 @@ function ajaxGetBoardInfo()
         type:'GET',
         success: function(res){
 
-            
+            UpdateTableInfo(res);
         }
 
 
@@ -522,14 +534,14 @@ function ajaxGetPlayersTableInfo()
 
 function  initializeButtons(){
 
-    $("#ready_button").disabled=true;
-    $("#buy_tokens_buttons").disabled=true;
-    $("#fold_button").disabled=true;
-    $("#call_button").disabled=true;
-    $("#bet_button").disabled=true;
-    $("#check_button").disabled=true;
-    $("#raise_button").disabled=true;
-    $("#exit_game_button").disabled=false;
+    $("#ready_button").prop('disabled',true);
+    $("#buy_tokens_buttons").prop('disabled',true);
+    $("#fold_button").prop('disabled',true);
+    $("#call_button").prop('disabled',true);
+    $("#bet_button").prop('disabled',true);
+    $("#check_button").prop('disabled',true);
+    $("#raise_button").prop('disabled',true);
+    $("#exit_game_button").prop('disabled',false);
 
 }
 
