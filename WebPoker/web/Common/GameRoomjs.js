@@ -383,13 +383,23 @@ function ajaxReadyToStart()
 
 function setUiMyTurn()
 {
+    if(computer==true)
+    {
+        
+    }
     $.ajax({
 
         url:"/GameRoom/validPokerActions",
         type:'GET',
         success: function(r)
         {
-            
+            $("#raise_button").attr("disabled",r.isRaiseValid);
+            $("#raise_value_button").attr("disabled",!(r.isRaiseValid));
+            $("#bet_value_button").attr("disabled",!(r.isBetValid));
+            $("#bet_button").attr("disabled",!(r.isBetValid));
+            $("#call_button").attr("disabled",!(r.isCallValid));
+            $("#check_button").attr("disabled",!(r.isCheckValid));
+            $("#fold_button").attr("diabled",!(r.isFoldValid));
         }
     });
 
