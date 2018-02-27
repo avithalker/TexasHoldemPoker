@@ -99,16 +99,16 @@ function ajaxBuyTokens()
 
 function setUiGameStartedMode()
 {
-    $("#ready_button").prop("disabled", false);
-    $("#buy_tokens_button").prop("disabled", false);
-    $("#exit_game_button").prop("disabled", false);
-    $("#fold_button").prop("disabled", true);
-    $("#call_button").prop("disabled", true);
-    $("#check_button").prop("disabled", true);
-    $("#bet_button").prop("disabled", true);
-    $("#raise_button").prop("disabled", true);
-    $("#raise_value_button").prop("disabled", true);
-    $("#bet_value_button").prop("disabled", true);
+    $("#ready_button").attr("disabled",false);
+    $("#buy_tokens_button").attr("disabled",false);
+    $("#exit_game_button").attr("disabled",false);
+    $("#fold_button").attr("disabled",true);
+    $("#call_button").attr("disabled",true);
+    $("#check_button").attr("disabled",true);
+    $("#bet_button").attr("disabled",true);
+    $("#raise_button").attr("disabled",true);
+    $("#raise_value_button").attr("disabled",true);
+    $("#bet_value_button").attr("disabled",true);
 
 
 }
@@ -180,16 +180,16 @@ function setHandEndedMode()
 
 function setUiHandStarted()
 {
-    $("#ready_button").disabled=true;
-    $("#buy_tokens_button").disabled=true;
-    $("#exit_game_button").disabled=true;
-    $("#fold_button").disabled=false;
-    $("#call_button").disabled=false;
-    $("#check_button").disabled=false;
-    $("#bet_button").disabled=false;
-    $("#raise_button").disables=false;
-    $("#raise_value_button").disabled=false;
-    $("#bet_value_button").disabled=false;
+    $("#ready_button").attr("disabled",true);
+    $("#buy_tokens_button").attr("disabled",true);
+    $("#exit_game_button").attr("disabled",true);
+    $("#fold_button").attr("disabled",false);
+    $("#call_button").attr("disabled",false);
+    $("#check_button").attr("disabled",false);
+    $("#bet_button").attr("disabled",false);
+    $("#raise_button").attr("disabled",false);
+    $("#raise_value_button").attr("disabled",false);
+    $("#bet_value_button").attr("disabled",false);
 
 }
 
@@ -383,6 +383,15 @@ function ajaxReadyToStart()
 
 function setUiMyTurn()
 {
+    $.ajax({
+
+        url:"/GameRoom/validPokerActions",
+        type:'GET',
+        success: function(r)
+        {
+            
+        }
+    });
 
 }
 
@@ -534,14 +543,14 @@ function ajaxGetPlayersTableInfo()
 
 function  initializeButtons(){
 
-    $("#ready_button").prop('disabled',true);
-    $("#buy_tokens_buttons").prop('disabled',true);
-    $("#fold_button").prop('disabled',true);
-    $("#call_button").prop('disabled',true);
-    $("#bet_button").prop('disabled',true);
-    $("#check_button").prop('disabled',true);
-    $("#raise_button").prop('disabled',true);
-    $("#exit_game_button").prop('disabled',false);
+    $("#ready_button").attr("disabled",true);
+    $("#buy_tokens_buttons").attr("disabled",true);
+    $("#fold_button").attr("disabled",true);
+    $("#call_button").attr("disabled",true);
+    $("#bet_button").attr("disabled",true);
+    $("#check_button").attr("disabled",true);
+    $("#raise_button").attr("disabled",true);
+    $("#exit_game_button").attr("disabled",false);
 
 }
 
