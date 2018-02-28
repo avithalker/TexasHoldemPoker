@@ -129,8 +129,8 @@ function setGameStarted()
 
 
     //question we need to ask during "game has started" mode:
-    setInterval(ajaxIsHandStarted,refreshRate);
-    setInterval(ajaxIsGameEnded,refreshRate);
+    interval_id_hand_started=setInterval(ajaxIsHandStarted,refreshRate);
+    interval_id_game_ended=setInterval(ajaxIsGameEnded,refreshRate);
 }
 
 
@@ -173,7 +173,7 @@ function ajaxGetWinners()
 
             });
 
-            $('.board').hide();
+            $(".Board").hide();
             $("#Winners").show();
 
         }
@@ -188,16 +188,16 @@ function setHandEndedMode()
     alert('Hand Has Ended!!');
     //GetWinnersrequest
     ajaxGetWinners();
-    
     //restart new hand
+    setUiGameStartedMode();
     interval_id_hand_started=setInterval(ajaxIsHandStarted,refreshRate);
 
 }
 
 function setUiHandStarted()
 {
-    $('#winners_table').hide();
-    $('.board').show();
+    $("#Winners").hide();
+    $('.Board').show();
     $("#ready_button").attr("disabled",true);
     $("#buy_tokens_button").attr("disabled",true);
     $("#exit_game_button").attr("disabled",true);
@@ -346,16 +346,11 @@ function ajaxIsHandStarted()
         success: function(r) {
             if(r.result == true)
             {
-                is_hand_started="true";
+                clearInterval(interval_id_hand_started);
+                setHandStarted();
             }
         }
     });
-
-    if(is_hand_started=="true")
-    {
-        clearInterval(interval_id_hand_started);
-        setHandStarted(); //change display to hand  has started mode.
-    }
 }
 
 function ajaxReadyToStart()
@@ -625,6 +620,8 @@ function ajaxPlayerType()
 
 $(function(){
 
+    $(".Board").hide();
+    $("#Winners").hide();
     initializeButtons();
     ajaxPlayerType();
     ajaxGetGameDetails();

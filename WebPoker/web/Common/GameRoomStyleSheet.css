@@ -44,13 +44,24 @@ body{
     grid-row: 1/4;
     border: gold;
     border-style: dotted;
+
 }
 
 
 #Winners{
     grid-column: 2/6;
     grid-row: 1/4;
-    visibility: hidden;
+    text-align:center;
+}
+
+h2{
+
+    color: gold;
+
+}
+
+#winners_table{
+
 
 }
 
