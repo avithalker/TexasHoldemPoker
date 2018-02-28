@@ -395,7 +395,7 @@ function setUiMyTurn()
 
             url:"/GameRoom/makeAction",
             type:'POST',
-            data:"action=0",
+            data:"action="+'0'+'&value='+'0',
             success: function(r){
                 if(r.isSucceed==false)
                 {
@@ -611,7 +611,7 @@ function ajaxPlayerType()
         type: 'GET',
         success: function(res){
 
-            computer=res.Result;
+            computer=res.result;
         }
 
     });
