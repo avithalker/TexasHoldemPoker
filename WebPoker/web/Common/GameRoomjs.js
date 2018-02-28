@@ -6,6 +6,8 @@ var interval_id_hand_started;
 var interval_id_hand_ended;
 var interval_id_game_started;
 var interval_id_my_turn;
+var interval_id_board_info;
+var interval_id_players_game_status;
 var bet_value;
 var raise_value;
 var computer=false;
@@ -86,7 +88,7 @@ function ajaxBuyTokens()
         type:'POST',
         success: function (res) {
 
-            if(res.isSuccess==false)
+            if(res.isSucceed==false)
             {
                 window.alert(res.msgError);
             }
@@ -140,9 +142,12 @@ function ajaxIsHandEnded()
         type:'GET',
         success: function(res){
 
-            if(res.Result==true)
+            if(res.result==true)
             {
               clearInterval(interval_id_hand_ended);
+              clearInterval(interval_id_my_turn);
+              clearInterval(interval_id_board_info);
+              clearInterval(interval_id_players_game_status);
               setHandEndedMode();
             }
         }
@@ -158,8 +163,18 @@ function ajaxGetWinners()
         type:'GET',
         success: function(winners){
 
-            //display winners
+            $.each(winners || [], function (index,winner_detail){
 
+                $('<tr>'+'<td>'+winner_detail.playerName+'</td>'+'<td>'+winner_detail.playerType+'</td>'+'<td>'+winner_detail.totalBuys+
+                    '</td>'+'<td>'+winner_detail.winningPrice+'</td>'+'<td>'+winner_detail.totalWinsNumber+'</td>'+'<td>'
+                    +winner_detail.totalHandsPlayed+'</td>'+'<td>'+winner_detail.handRank+'</td>'+'</tr>').appendTo($("#winners_table"));
+
+
+
+            });
+
+            $('.board').hide();
+            $("#Winners").show();
 
         }
 
@@ -170,9 +185,10 @@ function ajaxGetWinners()
 
 function setHandEndedMode()
 {
+    alert('Hand Has Ended!!');
     //GetWinnersrequest
     ajaxGetWinners();
-
+    
     //restart new hand
     interval_id_hand_started=setInterval(ajaxIsHandStarted,refreshRate);
 
@@ -180,16 +196,11 @@ function setHandEndedMode()
 
 function setUiHandStarted()
 {
+    $('#winners_table').hide();
+    $('.board').show();
     $("#ready_button").attr("disabled",true);
     $("#buy_tokens_button").attr("disabled",true);
     $("#exit_game_button").attr("disabled",true);
-    $("#fold_button").attr("disabled",false);
-    $("#call_button").attr("disabled",false);
-    $("#check_button").attr("disabled",false);
-    $("#bet_button").attr("disabled",false);
-    $("#raise_button").attr("disabled",false);
-    $("#raise_value_button").attr("disabled",false);
-    $("#bet_value_button").attr("disabled",false);
 
 }
 
@@ -320,12 +331,11 @@ function setHandStarted()
 {
 
     setUiHandStarted(); //update data in UI to hand started mode
-    setInterval(ajaxIsHandEnded,refreshRate);
-    setInterval(ajaxGetPlayersGameStatus,refreshRate); //refresh players data in the board
-    setInterval(ajaxGetBoardInfo,refreshRate); //refresh the data on the table
-    setInterval(ajaxIsMyTurn,refreshRate);
+    interval_id_hand_ended=setInterval(ajaxIsHandEnded,refreshRate);
+    interval_id_players_game_status=setInterval(ajaxGetPlayersGameStatus,refreshRate); //refresh players data in the board
+    interval_id_board_info=setInterval(ajaxGetBoardInfo,refreshRate); //refresh the data on the table
+    interval_id_my_turn=setInterval(ajaxIsMyTurn,refreshRate);
 
-    //get table details
 
 }
 
@@ -385,23 +395,52 @@ function setUiMyTurn()
 {
     if(computer==true)
     {
-        
-    }
-    $.ajax({
 
-        url:"/GameRoom/validPokerActions",
-        type:'GET',
-        success: function(r)
-        {
-            $("#raise_button").attr("disabled",r.isRaiseValid);
-            $("#raise_value_button").attr("disabled",!(r.isRaiseValid));
-            $("#bet_value_button").attr("disabled",!(r.isBetValid));
-            $("#bet_button").attr("disabled",!(r.isBetValid));
-            $("#call_button").attr("disabled",!(r.isCallValid));
-            $("#check_button").attr("disabled",!(r.isCheckValid));
-            $("#fold_button").attr("diabled",!(r.isFoldValid));
-        }
-    });
+        $.ajax({
+
+            url:"/GameRoom/makeAction",
+            type:'POST',
+            data:"action=0",
+            success: function(r){
+                if(r.isSucceed==false)
+                {
+                    window.alert(r.msgError);
+                }
+            }
+
+        });
+
+    }
+    else {
+        $.ajax({
+
+            url: "/GameRoom/validPokerActions",
+            type: 'GET',
+            success: function (r) {
+                $("#raise_button").attr("disabled", !(r.isRaiseValid));
+                $("#raise_value_button").attr("disabled", !(r.isRaiseValid));
+                $("#bet_value_button").attr("disabled", !(r.isBetValid));
+                $("#bet_button").attr("disabled", !(r.isBetValid));
+                $("#call_button").attr("disabled", !(r.isCallValid));
+                $("#check_button").attr("disabled", !(r.isCheckValid));
+                $("#fold_button").attr("disabled", !(r.isFoldValid));
+            }
+        });
+    }
+
+    interval_id_my_turn=setInterval(ajaxIsMyTurn,refreshRate);
+
+}
+
+function  disableActionButtons()
+{
+    $("#raise_button").attr("disabled",true);
+    $("#raise_value_button").attr("disabled",true);
+    $("#bet_value_button").attr("disabled",true);
+    $("#bet_button").attr("disabled",true);
+    $("#call_button").attr("disabled",true);
+    $("#check_button").attr("disabled",true);
+    $("#fold_button").attr("disabled",true);
 
 }
 
@@ -419,6 +458,9 @@ function ajaxIsMyTurn()
                clearInterval(interval_id_my_turn);
                setUiMyTurn(); //set the ui to my_turn mode;
             }
+            else{
+                disableActionButtons();
+            }
 
         }
 
@@ -434,9 +476,9 @@ function ajaxFoldAction()
 
         url:"/GameRoom/makeAction",
         type:'POST',
-        data:"action=4value=0",
+        data:"action="+'4'+'&value='+'0',
         success: function(r){
-            if(r.isSuccess==false)
+            if(r.isSucceed==false)
             {
                 window.alert(r.msgError);
             }
@@ -450,9 +492,9 @@ function ajaxCheckAction()
     $.ajax({
         url:"/GameRoom/makeAction",
         type:'POST',
-        data:"action=2value=0",
+        data:"action="+'2'+'&value='+'0',
         success: function(r){
-            if(r.isSuccess==false)
+            if(r.isSucceed==false)
             {
                 window.alert(r.msgError);
             }
@@ -464,15 +506,15 @@ function ajaxCheckAction()
 
 function ajaxBetAction()
 {
-    bet_value=$("#bet_value").textContent;
+    bet_value=$("#bet_value_button").val();
 
     $.ajax({
 
         url:"/GameRoom/makeAction",
         type:'POST',
-        data:"action=1value="+bet_value,
+        data:"action="+'1'+'&value='+bet_value,
         success: function(r){
-            if(r.isSuccess==false)
+            if(r.isSucceed==false)
             {
                 window.alert(r.msgError);
             }
@@ -484,15 +526,15 @@ function ajaxBetAction()
 
 function ajaxRaiseAction()
 {
-    raise_value=$("#raise_value_button").textContent;
+    raise_value=$("#raise_value_button").val();
 
     $.ajax({
 
         url:"/GameRoom/makeAction",
         type:'POST',
-        data:"action=3value="+raise_value,
+        data:"action="+'3'+'&value='+raise_value,
         success: function(r){
-            if(r.isSuccess==false)
+            if(r.isSucceed==false)
             {
                 window.alert(r.msgError);
             }
@@ -508,9 +550,9 @@ function ajaxCallAction()
 
         url:"/GameRoom/makeAction",
         type:'POST',
-        data:"action=5value=0",
+        data: "action="+'5'+'&value='+'0',
         success: function(r){
-            if(r.isSuccess==false)
+            if(r.isSucceed==false)
             {
                 window.alert(r.msgError);
             }

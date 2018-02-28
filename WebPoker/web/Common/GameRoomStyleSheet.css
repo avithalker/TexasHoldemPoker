@@ -46,6 +46,14 @@ body{
     border-style: dotted;
 }
 
+
+#Winners{
+    grid-column: 2/6;
+    grid-row: 1/4;
+    visibility: hidden;
+
+}
+
 .Actions{
     grid-column: 1/6;
     grid-row: 4;
