@@ -50,7 +50,7 @@ function RefreshGameRooms(GameRooms)
 
         $("#"+Id).click(function() {
             $.ajax({
-                url:"/Lobby/joinRoom",
+                url:"../Lobby/joinRoom",
                 data: "gameName="+ gameroom.gameTitle,
                 dataType:"json",
                 type:'POST',

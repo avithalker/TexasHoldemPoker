@@ -1,9 +1,28 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Test page</title>
-  </head>
-  <body>
-  hello
-  </body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Texas Holde'm Poker</title>
+        <link rel="stylesheet" href="Common/LoginStyleSheet.css">
+        <script src="Common/jquery-2.0.3.min.js"></script>
+    </head>
+
+    <body>
+        <div class="container" id="test">
+            <pane class="gametitle">
+                <h1 id="gametitle">Welcome to Texas Holde'm Poker</h1>
+                <br/>
+                <br/>
+            </pane>
+            <div id="logindetails">
+            <h2>Please enter a unique user name:</h2>
+            <form method="POST" action="./Login">
+                <input type="text" name="playerName" class="" id="playerName"/>
+                <input type="submit" value=Login class=""/><br>
+                <input type="radio" id="checked" name="playerType" class="" value="human" checked="true">Human Player<br>
+                <input type="radio" name="playerType"  class="" value="computer">Computer Player
+            </form>
+            </div>
+        </div>
+    </body>
 </html>

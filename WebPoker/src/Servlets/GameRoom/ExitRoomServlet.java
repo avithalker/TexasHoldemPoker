@@ -16,7 +16,7 @@ import java.io.IOException;
 @WebServlet(name = "ExitRoomServlet", urlPatterns = {"/GameRoom/exitRoom"})
 public class ExitRoomServlet extends HttpServlet {
 
-    private final String LOBBY_PAGE_URL ="../../Pages/LobbyPage.html";
+    private final String LOBBY_PAGE_URL ="/Pages/LobbyPage.html";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class ExitRoomServlet extends HttpServlet {
         GameRoomManager lobby = ServletContextUtils.getServerLobby(getServletContext());
         GameRoom gameRoom = lobby.getRoomByPlayer(userName);
         if(gameRoom == null) {
-            resp.sendRedirect(LOBBY_PAGE_URL);
+            resp.sendRedirect(req.getContextPath() + LOBBY_PAGE_URL);
             return;
         }
 
@@ -39,7 +39,7 @@ public class ExitRoomServlet extends HttpServlet {
         if(roomStatus == RoomStatuses.Pending || roomStatus == RoomStatuses.End ||
                 (roomStatus == RoomStatuses.Active && gameRoom.isHandRoundEnded())) {
             lobby.leaveRoom(userName); // will leave also from the room itself....
-            resp.sendRedirect(LOBBY_PAGE_URL);
+            resp.sendRedirect(req.getContextPath() + LOBBY_PAGE_URL);
             return;
         }
 

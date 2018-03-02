@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/Lobby/Logout"})
 public class LogoutServlet extends HttpServlet {
 
-    private final String HOME_PAGE_URL="../../Pages/HomePage.html";
+    private final String HOME_PAGE_URL="../../Pages/index.html";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -23,7 +23,7 @@ function ajaxGetGameDetails()
 {
     $.ajax(
         {
-            url:"/GameRoom/gameInfo",
+            url:"../GameRoom/gameInfo",
             type:'GET',
             success:function(gamedetails){
 
@@ -68,7 +68,7 @@ function updateGameDetails(gamedetails)
 function  ajaxIsGameStarted()
 {
     $.ajax({
-        url: "/GameRoom/isGameStarted",
+        url: "../GameRoom/isGameStarted",
         success: function(r) {
             if(r.result == true)
             {
@@ -84,7 +84,7 @@ function  ajaxIsGameStarted()
 function ajaxBuyTokens()
 {
     $.ajax({
-        url:"/GameRoom/buyTokens",
+        url:"../GameRoom/buyTokens",
         type:'POST',
         success: function (res) {
 
@@ -138,7 +138,7 @@ function ajaxIsHandEnded()
 {
     $.ajax({
 
-        url:"/GameRoom/isHandRoundEnded",
+        url:"../GameRoom/isHandRoundEnded",
         type:'GET',
         success: function(res){
 
@@ -159,7 +159,7 @@ function ajaxGetWinners()
 {
     $.ajax({
 
-        url:"/GameRoom/winners",
+        url:"../GameRoom/winners",
         type:'GET',
         success: function(winners){
 
@@ -294,7 +294,7 @@ function ajaxGetPlayersGameStatus()
 {
     $.ajax({
 
-        url:"/GameRoom/PlayersGameStatus",
+        url:"../GameRoom/PlayersGameStatus",
         type:'GET',
         success: function(players){
 
@@ -326,7 +326,7 @@ function ajaxGetBoardInfo()
 {
     $.ajax({
 
-        url:"/GameRoom/tableInfo",
+        url:"../GameRoom/tableInfo",
         type:'GET',
         success: function(res){
 
@@ -354,7 +354,7 @@ function setHandStarted()
 function ajaxIsHandStarted()
 {
     $.ajax({
-        url: "/GameRoom/isHandStarted",
+        url: "../GameRoom/isHandStarted",
         success: function(r) {
             if(r.result == true)
             {
@@ -380,7 +380,7 @@ function ajaxReadyToStart()
     }
     $.ajax(
         {
-            url:"/GameRoom/readyToStart",
+            url:"../GameRoom/readyToStart",
             type:'POST',
             data: "isReady="+is_ready,
             dataType:"json",
@@ -405,7 +405,7 @@ function setUiMyTurn()
 
         $.ajax({
 
-            url:"/GameRoom/makeAction",
+            url:"../GameRoom/makeAction",
             type:'POST',
             data:"action="+'0'+'&value='+'0',
             success: function(r){
@@ -421,7 +421,7 @@ function setUiMyTurn()
     else {
         $.ajax({
 
-            url: "/GameRoom/validPokerActions",
+            url: "../GameRoom/validPokerActions",
             type: 'GET',
             success: function (r) {
                 $("#raise_button").attr("disabled", !(r.isRaiseValid));
@@ -456,7 +456,7 @@ function ajaxIsMyTurn()
 {
     $.ajax({
 
-        url:"/GameRoom/isMyTurn",
+        url:"../GameRoom/isMyTurn",
         type:'GET',
         success: function(r){
 
@@ -481,7 +481,7 @@ function ajaxFoldAction()
 {
     $.ajax({
 
-        url:"/GameRoom/makeAction",
+        url:"../GameRoom/makeAction",
         type:'POST',
         data:"action="+'4'+'&value='+'0',
         success: function(r){
@@ -497,7 +497,7 @@ function ajaxFoldAction()
 function ajaxCheckAction()
 {
     $.ajax({
-        url:"/GameRoom/makeAction",
+        url:"../GameRoom/makeAction",
         type:'POST',
         data:"action="+'2'+'&value='+'0',
         success: function(r){
@@ -517,7 +517,7 @@ function ajaxBetAction()
 
     $.ajax({
 
-        url:"/GameRoom/makeAction",
+        url:"../GameRoom/makeAction",
         type:'POST',
         data:"action="+'1'+'&value='+bet_value,
         success: function(r){
@@ -537,7 +537,7 @@ function ajaxRaiseAction()
 
     $.ajax({
 
-        url:"/GameRoom/makeAction",
+        url:"../GameRoom/makeAction",
         type:'POST',
         data:"action="+'3'+'&value='+raise_value,
         success: function(r){
@@ -555,7 +555,7 @@ function ajaxCallAction()
 {
     $.ajax({
 
-        url:"/GameRoom/makeAction",
+        url:"../GameRoom/makeAction",
         type:'POST',
         data: "action="+'5'+'&value='+'0',
         success: function(r){
@@ -588,7 +588,7 @@ function ajaxGetPlayersTableInfo()
 {
     $.ajax({
 
-        url:"/GameRoom/PlayersInfo",
+        url:"../GameRoom/PlayersInfo",
         type:'GET',
         success: function(res){
             setPlayersTable(res);
@@ -619,7 +619,7 @@ function ajaxPlayerType()
 {
     $.ajax({
 
-        url: "/GameRoom/isComputerType",
+        url: "../GameRoom/isComputerType",
         type: 'GET',
         success: function(res){
 
