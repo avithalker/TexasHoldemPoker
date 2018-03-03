@@ -34,8 +34,15 @@ public class MakePokerActionServlet extends HttpServlet {
         if(gameRoom == null)
             throw new ServletException("Error- player didn't join to a game room!");
 
-        PokerActionDto pokerActionDto = getPokerActionFromRequest(req);
-        ActionResult result = gameRoom.MakePokerAction(userName,pokerActionDto.getPokerAction(),pokerActionDto.getValue());
+        ActionResult result;
+        try {
+            PokerActionDto pokerActionDto = getPokerActionFromRequest(req);
+            result = gameRoom.MakePokerAction(userName,pokerActionDto.getPokerAction(),pokerActionDto.getValue());
+        }
+        catch (Exception e){
+            result = new ActionResult(false,"Error- action is not valid!");
+        }
+
 
         Gson jsonParser = new Gson();
         String resultJson = jsonParser.toJson(result);
@@ -46,7 +53,7 @@ public class MakePokerActionServlet extends HttpServlet {
 
     }
 
-    private PokerActionDto getPokerActionFromRequest(HttpServletRequest req){
+    private PokerActionDto getPokerActionFromRequest(HttpServletRequest req) throws Exception {
         PokerActionDto pokerActionDto = new PokerActionDto();
         pokerActionDto.setPokerAction(Integer.parseInt(req.getParameter("action")));
         pokerActionDto.setValue(Integer.parseInt(req.getParameter("value")));

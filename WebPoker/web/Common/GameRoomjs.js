@@ -124,6 +124,7 @@ function ajaxIsGameEnded()
 
 function setGameStarted()
 {
+    alert('Game started- all players are in');
     setUiGameStartedMode();
     setInterval(ajaxGetPlayersTableInfo,refreshRate); //refresh players' data in the table
 
@@ -342,6 +343,8 @@ function ajaxGetBoardInfo()
 function setHandStarted()
 {
 
+    cleanWinnersTable();
+    cleanIsReadyStatus();
     setUiHandStarted(); //update data in UI to hand started mode
     interval_id_hand_ended=setInterval(ajaxIsHandEnded,refreshRate);
     interval_id_players_game_status=setInterval(ajaxGetPlayersGameStatus,refreshRate); //refresh players data in the board
@@ -525,6 +528,10 @@ function ajaxBetAction()
             {
                 window.alert(r.msgError);
             }
+            else
+            {
+                $("#bet_value_button").val('');
+            }
         }
 
     });
@@ -544,6 +551,10 @@ function ajaxRaiseAction()
             if(r.isSucceed==false)
             {
                 window.alert(r.msgError);
+            }
+            else
+            {
+                $("#raise_value_button").val('');
             }
         }
 
@@ -611,6 +622,15 @@ function  initializeButtons(){
     $("#raise_button").attr("disabled",true);
     $("#exit_game_button").attr("disabled",false);
 
+}
+
+function cleanWinnersTable(){
+    $("#winners_table").find("tr:gt(0)").remove();
+}
+
+function cleanIsReadyStatus() {
+    is_ready="false";
+    $("#ready_button").attr('value',"I'm Ready");
 }
 
 
