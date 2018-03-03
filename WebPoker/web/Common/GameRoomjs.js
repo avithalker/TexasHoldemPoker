@@ -251,11 +251,23 @@ function setPlayersGameStatus(players)
     $.each(players || [], function (index,player_detail) {
 
         //  <img id="table" src="../Pages/table.png" />
+        if(player_detail.isActive==false)
+        {
+            var card1_src= "../Common/cards/notactive.png";
+            var card2_src= "../Common/cards/notactive.png";
+        }
+        else if(player_detail.lastAction=="Fold")
+        {
+            var card1_src= "../Common/cards/fold.png";
+            var card2_src= "../Common/cards/fold.png";
+        }
+        else
+        {
 
-        var card1_src= "../Common/cards/"+player_detail.playerCards[0]+".png";
-        var card2_src= "../Common/cards/"+player_detail.playerCards[1]+".png";
+            var card1_src= "../Common/cards/"+player_detail.playerCards[0]+".png";
+            var card2_src= "../Common/cards/"+player_detail.playerCards[1]+".png";
 
-
+        }
 
         $('<table>'+'<tr>'+'<th>'+'Name:'+'</th>'+'<td>'+player_detail.playerName+'</td>'+'</tr>'
 
@@ -618,6 +630,8 @@ function ajaxPlayerType()
 
 }
 
+
+
 $(function(){
 
     $(".Board").hide();
@@ -634,7 +648,6 @@ $(function(){
     $("#bet_button").click(function(){ajaxBetAction();});
     $("#check_button").click(function(){ajaxCheckAction();});
     $("#raise_button").click(function(){ajaxRaiseAction();});
-    //$("#exit_game_button").click(function(){});
     interval_id_game_started=setInterval(ajaxIsGameStarted,refreshRate);
 
 
