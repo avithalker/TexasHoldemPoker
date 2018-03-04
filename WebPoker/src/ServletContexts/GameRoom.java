@@ -55,6 +55,7 @@ public class GameRoom {
     public void leaveRoom(String playerName){
         roomUserManager.removeUser(playerName);
         if(gameStatus == RoomStatuses.Active){
+            gameManager.foldFromEntireGame(gameManager.findPlayerIdByName(playerName));
             if (roomUserManager.isAllReady()) {
                 startHand();
             }
