@@ -56,6 +56,10 @@ public class GameRoom {
         roomUserManager.removeUser(playerName);
         if(gameStatus == RoomStatuses.Active){
             gameManager.foldFromEntireGame(gameManager.findPlayerIdByName(playerName));
+            if(!isThereMoreThenTowInEntireGame()){
+                endEntireGame("There are less than 2 players in the entire game. Game is finished");
+                return;
+            }
             if (roomUserManager.isAllReady()) {
                 startHand();
             }
@@ -455,6 +459,12 @@ public class GameRoom {
             endEntireGame("There is no more human players in the room. Game is finished");
             return;
         }
+
+        if(!isThereMoreThenTowInEntireGame()){
+            System.out.println("There are less than 2 players in the entire game. Game is finished");
+            endEntireGame("There are less than 2 players in the entire game. Game is finished");
+            return;
+        }
     }
 
     private void endEntireGame(String endReason){
@@ -473,6 +483,23 @@ public class GameRoom {
             }
         }catch (InvalidOperationException ex){
             System.out.println("Failed to check 'isThereAnyHumanActiveInTheEntireGame'.you are not allowed to call to getActivePlayersStatus at the moment");
+        }
+        return false;
+    }
+
+    private boolean isThereMoreThenTowInEntireGame() {
+        try {
+            PlayerInfo[] Players = gameManager.getPlayersStatus();
+            int count = 0;
+            for (PlayerInfo info : Players) {
+                if (!info.isPlayerFoldFromEntireGame())
+                    count++;
+            }
+            if (count >= 2)
+                return true;
+        }
+        catch (InvalidOperationException ex){
+            System.out.println("Failed to check 'isThereMoreThenTowInEntireGame'.you are not allowed to call to getPlayersStatus at the moment");
         }
         return false;
     }

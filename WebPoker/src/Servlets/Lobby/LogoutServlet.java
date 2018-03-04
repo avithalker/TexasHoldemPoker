@@ -15,7 +15,7 @@ import java.io.IOException;
 @WebServlet(name = "LogoutServlet", urlPatterns = {"/Lobby/Logout"})
 public class LogoutServlet extends HttpServlet {
 
-    private final String HOME_PAGE_URL="../../Pages/index.html";
+    private final String HOME_PAGE_URL="/index.html";
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,6 +28,6 @@ public class LogoutServlet extends HttpServlet {
             usersManager.removeUser(userName);
             SessionUtils.clearSession(req);
         }
-        resp.sendRedirect(HOME_PAGE_URL);
+        resp.sendRedirect(req.getContextPath() + HOME_PAGE_URL);
     }
 }

@@ -47,6 +47,10 @@ function RefreshGameRooms(GameRooms)
 
 
         $('#ChangeID').attr('id',Id);
+        if(gameroom.gameStatus != "Pending")
+        {
+            $("#"+Id).prop('disabled', true);
+        }
 
         $("#"+Id).click(function() {
             $.ajax({

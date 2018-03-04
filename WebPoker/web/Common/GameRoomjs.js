@@ -5,8 +5,10 @@ var is_hand_started="false";
 var interval_id_hand_started;
 var interval_id_hand_ended;
 var interval_id_game_started;
+var interval_id_game_ended;
 var interval_id_my_turn;
 var interval_id_board_info;
+var interval_id_game_details;
 var interval_id_players_game_status;
 var bet_value;
 var raise_value;
@@ -17,7 +19,17 @@ var board_cards=["#card_board1","#card_board2","#card_board3","#card_board4","#c
 
 
 
-
+function ajaxExitRoom() {
+    $.ajax(
+        {
+            url: "../GameRoom/exitRoom",
+            type: 'POST',
+            success: function () {
+                location.href = "./LobbyPage.html";
+            }
+        }
+    );
+}
 
 function ajaxGetGameDetails()
 {
@@ -30,15 +42,10 @@ function ajaxGetGameDetails()
                 updateGameDetails(gamedetails);
 
             }
-
-
-
         }
     );
 
 }
-
-
 
 function updateGameDetails(gamedetails)
 {
@@ -93,9 +100,6 @@ function ajaxBuyTokens()
                 window.alert(res.msgError);
             }
         }
-
-
-
     });
 }
 
@@ -111,14 +115,28 @@ function setUiGameStartedMode()
     $("#raise_button").attr("disabled",true);
     $("#raise_value_button").attr("disabled",true);
     $("#bet_value_button").attr("disabled",true);
-
-
 }
-
 
 function ajaxIsGameEnded()
 {
     //todo:servlet for is game ended...
+    $.ajax({
+        url:"../GameRoom/isGameEnded",
+        type:'GET',
+        success: function (res) {
+
+            if(res.result==true)
+            {
+                clearInterval(interval_id_game_ended);
+                handleEndOfGame(res.msg);
+            }
+        }
+    });
+}
+
+function handleEndOfGame(endReason) {
+    alert('Game has ended. Reason: ' + endReason);
+    ajaxExitRoom();
 }
 
 
@@ -127,11 +145,12 @@ function setGameStarted()
     alert('Game started- all players are in');
     setUiGameStartedMode();
     setInterval(ajaxGetPlayersTableInfo,refreshRate); //refresh players' data in the table
+    interval_id_game_details = setInterval(ajaxGetGameDetails,refreshRate);
 
 
     //question we need to ask during "game has started" mode:
-    interval_id_hand_started=setInterval(ajaxIsHandStarted,refreshRate);
-    interval_id_game_ended=setInterval(ajaxIsGameEnded,refreshRate);
+    interval_id_hand_started = setInterval(ajaxIsHandStarted,refreshRate);
+    interval_id_game_ended = setInterval(ajaxIsGameEnded,refreshRate);
 }
 
 
@@ -170,8 +189,6 @@ function ajaxGetWinners()
                     '</td>'+'<td>'+winner_detail.winningPrice+'</td>'+'<td>'+winner_detail.totalWinsNumber+'</td>'+'<td>'
                     +winner_detail.totalHandsPlayed+'</td>'+'<td>'+winner_detail.handRank+'</td>'+'</tr>').appendTo($("#winners_table"));
 
-
-
             });
 
             $(".Board").hide();
@@ -191,7 +208,9 @@ function setHandEndedMode()
     ajaxGetWinners();
     //restart new hand
     setUiGameStartedMode();
-    interval_id_hand_started=setInterval(ajaxIsHandStarted,refreshRate);
+    interval_id_game_ended = setInterval(ajaxIsGameEnded,refreshRate);
+    interval_id_hand_started = setInterval(ajaxIsHandStarted,refreshRate);
+    interval_id_game_details = setInterval(ajaxGetGameDetails,refreshRate);
 
 }
 
@@ -301,11 +320,7 @@ function ajaxGetPlayersGameStatus()
 
             setPlayersGameStatus(players);
 
-
         }
-
-
-
     });
 }
 
@@ -333,8 +348,6 @@ function ajaxGetBoardInfo()
 
             UpdateTableInfo(res);
         }
-
-
     });
 
 }
@@ -362,6 +375,8 @@ function ajaxIsHandStarted()
             if(r.result == true)
             {
                 clearInterval(interval_id_hand_started);
+                clearInterval(interval_id_game_details);
+                clearInterval(interval_id_game_ended);
                 setHandStarted();
             }
         }
@@ -473,9 +488,6 @@ function ajaxIsMyTurn()
             }
 
         }
-
-
-
     });
 }
 
@@ -495,6 +507,7 @@ function ajaxFoldAction()
         }
 
     });
+    disableActionButtons();
 }
 
 function ajaxCheckAction()
@@ -511,6 +524,7 @@ function ajaxCheckAction()
         }
 
     });
+    disableActionButtons();
 }
 
 
@@ -535,6 +549,7 @@ function ajaxBetAction()
         }
 
     });
+    disableActionButtons();
 }
 
 
@@ -559,6 +574,7 @@ function ajaxRaiseAction()
         }
 
     });
+    disableActionButtons();
 }
 
 
@@ -577,6 +593,7 @@ function ajaxCallAction()
         }
 
     });
+    disableActionButtons();
 }
 
 function  setPlayersTable(playersdata){
