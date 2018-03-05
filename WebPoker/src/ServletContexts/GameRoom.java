@@ -128,6 +128,8 @@ public class GameRoom {
         gameGeneralInfoDto.setSmallBlindValue(gameGeneralInfo.getSmallBlindValue());
         gameGeneralInfoDto.setTotalPlayedHands(gameGeneralInfo.getTotalPlayedHands());
         gameGeneralInfoDto.setTotalTokens(gameGeneralInfo.getTotalTokens());
+        gameGeneralInfoDto.setGameName(gameManager.getGameSettings().getGameTitle());
+
 
         return gameGeneralInfoDto;
     }

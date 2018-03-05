@@ -19,6 +19,15 @@ var board_cards=["#card_board1","#card_board2","#card_board3","#card_board4","#c
 
 
 
+function ajaxGetMyDetails() {
+    $.ajax({
+        url: "../Lobby/MyDetails",
+        success: function (myDetails) {
+            $("#playerName").text("Player name: " + myDetails.playerName);
+        }
+    });
+}
+
 function ajaxExitRoom() {
     $.ajax(
         {
@@ -57,6 +66,7 @@ function updateGameDetails(gamedetails)
     $("#fixed_value").text(gamedetails.isBlindFixed);
     $("#additions").text(gamedetails.blindAdditions);
     $("#total_tokens").text(gamedetails.totalTokens);
+    $("#gameName").text("Game name: "+gamedetails.gameName);
 
     /*{
        "buyValue": xxx,
@@ -676,6 +686,7 @@ $(function(){
     initializeButtons();
     ajaxPlayerType();
     ajaxGetGameDetails();
+    ajaxGetMyDetails();
     //get player's type.
     //override click action buttons
     $("#ready_button").click(function(){ajaxReadyToStart();});

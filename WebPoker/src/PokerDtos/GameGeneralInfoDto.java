@@ -9,6 +9,7 @@ public class GameGeneralInfoDto {
     private int blindAddition;
     private int totalTokens;
     private int totalPlayedHands;
+    private String gameName;
 
     public int getBuyValue() {
         return buyValue;
@@ -72,5 +73,13 @@ public class GameGeneralInfoDto {
 
     public void setTotalPlayedHands(int totalPlayedHands) {
         this.totalPlayedHands = totalPlayedHands;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }
