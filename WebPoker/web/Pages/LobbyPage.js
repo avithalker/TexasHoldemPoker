@@ -110,19 +110,24 @@ function RefreshGameRooms(GameRooms)
 }
 
 
-function ajaxRefreshGameRooms()
-{
+function ajaxGetMyDetails() {
     $.ajax({
-        url: ONLINE_GAME_ROOMS,
-        success: function(gamerooms){
-            RefreshGameRooms(gamerooms);
+        url: "../Lobby/MyDetails",
+        success: function (myDetails) {
+            $("#playerName").text(myDetails.playerName);
         }
-
-    }
-
-
-)
+    });
 }
+
+function ajaxRefreshGameRooms() {
+    $.ajax({
+            url: ONLINE_GAME_ROOMS,
+            success: function (gamerooms) {
+                RefreshGameRooms(gamerooms);
+            }
+        });
+}
+
 
 //function tht creates a get request to the online users
 
@@ -143,6 +148,8 @@ $(function() {
 
     setInterval(ajaxActivePlayersList, refreshRate);
     setInterval(ajaxRefreshGameRooms,refreshRate);
+
+    ajaxGetMyDetails();
 
     $("#uploadForm").submit(function () {
 

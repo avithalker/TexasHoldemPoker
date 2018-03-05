@@ -64,5 +64,16 @@ empty request
 
 redirect response (nothing to implement)
 
+11) MyDetails request - GET action
+
+empty request
+
+12) MyDetails response
+
+{
+"playerName": "xxx",
+"isComputer": true/false
+}
+
 
 
