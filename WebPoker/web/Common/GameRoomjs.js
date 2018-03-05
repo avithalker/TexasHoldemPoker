@@ -178,7 +178,7 @@ function ajaxIsHandEnded()
               clearInterval(interval_id_my_turn);
               clearInterval(interval_id_board_info);
               clearInterval(interval_id_players_game_status);
-              setHandEndedMode();
+              setHandEndedMode(res.msg);
             }
         }
 
@@ -211,9 +211,9 @@ function ajaxGetWinners()
 }
 
 
-function setHandEndedMode()
+function setHandEndedMode(reason)
 {
-    alert('Hand Has Ended!!');
+    alert('Hand Has Ended! Reason: '+ reason);
     //GetWinnersrequest
     ajaxGetWinners();
     //restart new hand

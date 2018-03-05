@@ -17,6 +17,7 @@ public class GambleRoundManager {
     private Player lastRaisedPlayer;
     private Player firstPlayerToBet;
     private boolean isHandRoundStarted;
+    private boolean isHandRoundEnded;
 
 
     public GambleRoundManager(){
@@ -25,6 +26,7 @@ public class GambleRoundManager {
         roundStates = new BetRoundTitles[]{BetRoundTitles.FirstBetRound,
                 BetRoundTitles.Flop,BetRoundTitles.Turn,BetRoundTitles.River};
         isHandRoundStarted = false;
+        isHandRoundEnded = false;
     }
 
 
@@ -51,7 +53,7 @@ public class GambleRoundManager {
 
     public boolean isHandDone(Player[] playersInRound, int betValue){
         return (roundStates[gambleRoundNo - 1] == BetRoundTitles.River &&
-                isGambleRoundDone(playersInRound, betValue)) || isLastManStanding(playersInRound);
+                isGambleRoundDone(playersInRound, betValue)) || isLastManStanding(playersInRound) || isHandRoundEnded;
     }
 
     private boolean isLastManStanding(Player[] playersInRound){
@@ -111,10 +113,12 @@ public class GambleRoundManager {
         this.lastRaisedPlayer = null;
         this.firstPlayerToBet = null;
         isHandRoundStarted = true;
+        isHandRoundEnded = false;
     }
 
     public void endHand(){
         isHandRoundStarted = false;
+        isHandRoundEnded = true;
     }
 
     public BetRoundTitles startNewGambleRound(Player[] playersInRound, int dealerPlace){
