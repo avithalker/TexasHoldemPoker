@@ -489,6 +489,10 @@ public class GameManager {
     }
 
     public boolean isPlayerTurnValidation(String playerName){
+
+        if(gambleRoundManager.isHandRoundEnded())
+            return false;
+
         Player player = findPlayerByName(playerName);
         if(player == null)
             return false;

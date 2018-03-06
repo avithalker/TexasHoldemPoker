@@ -161,4 +161,6 @@ public class GambleRoundManager {
     public boolean isHandRoundStarted() {
         return isHandRoundStarted;
     }
+
+    public boolean isHandRoundEnded() {return isHandRoundEnded; }
 }
