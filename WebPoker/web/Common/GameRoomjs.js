@@ -299,22 +299,41 @@ function setPlayersGameStatus(players)
 
         }
 
-        $('<table>'+'<tr>'+'<th>'+'Name:'+'</th>'+'<td>'+player_detail.playerName+'</td>'+'</tr>'
-
-                +'<tr>'+'<th>'+'Title:'+'</th>'+'<td>'+player_detail.playerTitle+'</td>'+'</tr>'
-
-                    +'<tr>'+'<th>'+'Tokens:'+'</th>'+'<td>'+player_detail.tokens+'</td>'+'</tr>'
-
-                    +'<tr>'+'<th>'+'Current Bet'+'</th>'+'<td>'+player_detail.currentBet+'</td>'+'</tr>'
-
-                    +'<tr>'+'<th>'+'Last Action'+'</th>'+'<td>'+player_detail.lastAction+'</td>'+'</tr>'+'</table>').appendTo($(players_array[index]));
-
-
+        $('<table></table>')
+            .addClass('tableplayer')
+            .append(
+                $('<tr></tr>')
+                    .append(
+                        $('<th></th>').text('Name:'),
+                        $('<td></td>').text(player_detail.playerName)
+                    ),
+                $('<tr></tr>')
+                    .append(
+                        $('<th></th>').text('Title:'),
+                        $('<td></td>').text(player_detail.playerTitle)
+                    ),
+                $('<tr></tr>')
+                    .append(
+                        $('<th></th>').text('Tokens:'),
+                        $('<td></td>').text(player_detail.tokens)
+                    ),
+                $('<tr></tr>')
+                    .append(
+                        $('<th></th>').text('Current Bet:'),
+                        $('<td></td>').text(player_detail.currentBet)
+                    ),
+                $('<tr></tr>')
+                    .append(
+                        $('<th></th>').text('Last Action:'),
+                        $('<td></td>').text(player_detail.lastAction)
+                    )
+            ).appendTo($(players_array[index]));
 
         $('<img />').addClass("card1").attr('src', card1_src).appendTo($(players_array[index]));
         $('<img />').addClass("card2").attr('src', card2_src).appendTo($(players_array[index]));
 
-                index=index+1;
+
+        index=index+1;
 
 
     });
@@ -343,7 +362,7 @@ function UpdateTableInfo(res)
     $(board_cards[3]).attr('src', "../Common/cards/"+res.cards[3]+".png");
     $(board_cards[4]).attr('src', "../Common/cards/"+res.cards[4]+".png");
 
-    $("#pot_value").attr('value',res.pot);
+    $("#pot_value").text(res.pot);
 
 }
 
@@ -683,6 +702,7 @@ $(function(){
 
     $(".Board").hide();
     $("#Winners").hide();
+
     initializeButtons();
     ajaxPlayerType();
     ajaxGetGameDetails();
@@ -697,7 +717,5 @@ $(function(){
     $("#check_button").click(function(){ajaxCheckAction();});
     $("#raise_button").click(function(){ajaxRaiseAction();});
     interval_id_game_started=setInterval(ajaxIsGameStarted,refreshRate);
-
-
 
 });

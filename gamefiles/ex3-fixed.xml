@@ -3,7 +3,7 @@
 <GameDescriptor xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="TexaxHoldem.xsd">
 	<GameType>DynamicMultiPlayer</GameType>
 	<Structure>
-		<HandsCount>12</HandsCount>
+		<HandsCount>3</HandsCount>
 		<Buy>100</Buy>
 		<Blindes fixed="true" additions="2" max-total-rounds="10">
 			<Big>6</Big>
