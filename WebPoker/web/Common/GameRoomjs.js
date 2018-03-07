@@ -28,17 +28,7 @@ function ajaxGetMyDetails() {
     });
 }
 
-function ajaxExitRoom() {
-    $.ajax(
-        {
-            url: "../GameRoom/exitRoom",
-            type: 'POST',
-            success: function () {
-                location.href = "./LobbyPage.html";
-            }
-        }
-    );
-}
+
 
 function ajaxGetGameDetails()
 {
@@ -146,7 +136,7 @@ function ajaxIsGameEnded()
 
 function handleEndOfGame(endReason) {
     alert('Game has ended. Reason: ' + endReason);
-    ajaxExitRoom();
+    window.location="./LobbyPage.html";
 }
 
 
