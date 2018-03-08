@@ -8,6 +8,7 @@ public class PlayerGameStatusDto {
     private String[] playerCards;
     private String lastAction;
     private boolean isActive;
+    private boolean isMyTurn;
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
@@ -43,5 +44,9 @@ public class PlayerGameStatusDto {
 
     public String getPlayerName() {
         return playerName;
+    }
+
+    public void setMyTurn(boolean myTurn) {
+        isMyTurn = myTurn;
     }
 }

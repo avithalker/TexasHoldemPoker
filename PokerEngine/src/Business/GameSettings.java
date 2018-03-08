@@ -185,7 +185,11 @@ public class GameSettings {
     }
 
     private int calcBigBlindMaxValue() {
-        int totalRounds = handsCount / numberOfPlayers;
+        int totalRounds;
+        if(getGameType() == GameTypes.DynamicMultiPlayer)
+            totalRounds = handsCount /getTotalPlayers();
+        else
+         totalRounds = handsCount / numberOfPlayers;
         int maxValue1 = totalRounds * blindAddition;
         int maxValue2 = blindMaxTotalRound * blindAddition;
         if (maxValue1 < maxValue2)
