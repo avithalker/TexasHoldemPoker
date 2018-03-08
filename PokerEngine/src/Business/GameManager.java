@@ -89,12 +89,12 @@ public class GameManager {
         }
 
         if (handRoundNo >= gameSettings.getHandsCount()) {
-            return new ActionResult(false, "!!! Cant start new round. Max hand rounds exceeded !!!");
+            return new ActionResult(false, "Cant start new round. Max hand rounds exceeded");
         }
 
         initializeActivePlayers();
         if(activePokerPlayers.length <= 1)
-            return new ActionResult(false,"!!! Cant start new round. There are less then 2 players that can play !!!");
+            return new ActionResult(false,"Cant start new round. There are less then 2 players that can play");
 
         gameTable.initNewHandRound();
         cardsDeck.initNewHandRound();
@@ -407,6 +407,7 @@ public class GameManager {
     public boolean isAnActivePlayer(int playerId){
         return isAnActivePlayer(getPlayerById(playerId));
     }
+
 
     public boolean isPlayerFold(int playerId){
         for(Player player : activePokerPlayers){
@@ -812,6 +813,14 @@ public class GameManager {
         if(player.getTokens() > 0 && player.getTokens() > gameSettings.getBigBlindValue() && !player.isPlayerFoldFromEntireGame())
             return true;
         return false;
+    }
+
+    public boolean isPlayerPlayingInHand(PlayerInfo player){
+        for(Player activeInHand: activePokerPlayers){
+            if(activeInHand.getPlayerId() == player.getPlayerId())
+                return true;
+        }
+        return  false;
     }
 
 

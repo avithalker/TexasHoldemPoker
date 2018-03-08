@@ -1,4 +1,5 @@
 var refreshRate=2000;
+var isMyTurnRefreshRate = 2000;
 var is_ready="false";
 var is_game_started="false";
 var is_hand_started="false";
@@ -433,7 +434,7 @@ function setHandStarted()
     interval_id_hand_ended=setInterval(ajaxIsHandEnded,refreshRate);
     interval_id_players_game_status=setInterval(ajaxGetPlayersGameStatus,refreshRate); //refresh players data in the board
     interval_id_board_info=setInterval(ajaxGetBoardInfo,refreshRate); //refresh the data on the table
-    interval_id_my_turn=setInterval(ajaxIsMyTurn,refreshRate);
+    interval_id_my_turn=setInterval(ajaxIsMyTurn,isMyTurnRefreshRate);
 
 
 }
@@ -732,6 +733,9 @@ function ajaxPlayerType()
         success: function(res){
 
             computer=res.result;
+            if(computer ==true){
+                isMyTurnRefreshRate = 3000;
+            }
         }
 
     });

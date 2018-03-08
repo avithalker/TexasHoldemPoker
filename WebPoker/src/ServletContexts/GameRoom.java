@@ -172,7 +172,7 @@ public class GameRoom {
             playersGameStatusDto[i].setPlayerTitle(player.getPlayerTitle().toString());
             playersGameStatusDto[i].setTokens(player.getTokens());
             playersGameStatusDto[i].setPlayerCards(player.getPlayerCards());
-            playersGameStatusDto[i].setActive(gameManager.isAnActivePlayer(player.getPlayerId()));
+            playersGameStatusDto[i].setActive(!player.isPlayerFoldFromEntireGame() && gameManager.isPlayerPlayingInHand(player));
             playersGameStatusDto[i].setMyTurn(gameManager.isPlayerTurnValidation(player.getPlayerName()));
             i++;
         }
@@ -252,6 +252,7 @@ public class GameRoom {
 
         ActionResult result = gameManager.startNewHandRound();
         if (!result.isSucceed()) {
+            endEntireGame(result.getMsgError());
             System.out.println("Error- Can't start hand round " + result.getMsgError());
             return;
         }

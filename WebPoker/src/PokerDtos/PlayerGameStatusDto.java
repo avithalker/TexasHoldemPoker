@@ -49,4 +49,6 @@ public class PlayerGameStatusDto {
     public void setMyTurn(boolean myTurn) {
         isMyTurn = myTurn;
     }
+
 }
+
