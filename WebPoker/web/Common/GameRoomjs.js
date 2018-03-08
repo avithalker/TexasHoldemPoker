@@ -128,7 +128,24 @@ function ajaxIsGameEnded()
             if(res.result==true)
             {
                 clearInterval(interval_id_game_ended);
-                handleEndOfGame(res.msg);
+                //handleEndOfGame(res.msg);
+                ajaxExitGameEnde(res.msg);
+            }
+        }
+    });
+}
+
+function ajaxExitGameEnde(endReason)
+{
+    $.ajax({
+        url:"../GameRoom/exitEndGame",
+        type:'POST',
+        success: function (res) {
+
+            if(res.result==true)
+            {
+                alert('Game has ended. Reason: ' + endReason);
+                window.location="./LobbyPage.html";
             }
         }
     });
