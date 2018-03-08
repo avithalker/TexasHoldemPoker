@@ -10,5 +10,5 @@
 			<Small>3</Small>
 		</Blindes>
 	</Structure>	
-	<DynamicPlayers game-title="new" total-players="6"/>
+	<DynamicPlayers game-title="new" total-players="3"/>
 </GameDescriptor>

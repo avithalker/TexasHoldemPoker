@@ -157,6 +157,12 @@ h2{
 }
 
 
+.myturn
+{
+    border-color: gold;
+    border-style: dotted;
+}
+
 #table_img{
     position: absolute;
     z-index: -1;

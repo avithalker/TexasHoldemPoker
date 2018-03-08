@@ -5,7 +5,7 @@
 	<Structure>
 		<HandsCount>12</HandsCount>
 		<Buy>100</Buy>
-		<Blindes fixed="true" additions="2" max-total-rounds="10">
+		<Blindes fixed="false" additions="2" max-total-rounds="10">
 			<Big>6</Big>
 			<Small>3</Small>
 		</Blindes>

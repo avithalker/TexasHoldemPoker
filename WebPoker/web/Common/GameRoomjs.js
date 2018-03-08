@@ -313,6 +313,15 @@ function setPlayersGameStatus(players)
     var index=0;
     $.each(players || [], function (index,player_detail) {
 
+
+        if(player_detail.isMyTurn==true)
+        {
+            $((players_array[index])).addClass('myturn');
+        }
+        else
+        {
+            $((players_array[index])).removeClass('myturn');
+        }
         //  <img id="table" src="../Pages/table.png" />
         if(player_detail.isActive==false)
         {
