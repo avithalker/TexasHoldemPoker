@@ -136,6 +136,7 @@ function ajaxIsGameEnded()
 
 function handleEndOfGame(endReason) {
     alert('Game has ended. Reason: ' + endReason);
+
     window.location="./LobbyPage.html";
 }
 
@@ -212,15 +213,40 @@ function setHandEndedMode(reason)
     interval_id_hand_started = setInterval(ajaxIsHandStarted,refreshRate);
     interval_id_game_details = setInterval(ajaxGetGameDetails,refreshRate);
 
+
+}
+
+function CleanBoard()
+{
+    $(players_array[0]).empty();
+    $(players_array[1]).empty();
+    $(players_array[2]).empty();
+    $(players_array[3]).empty();
+    $(players_array[4]).empty();
+    $(players_array[5]).empty();
+    $(board_cards[0]).attr('src', "../Common/cards/card.png");
+    $(board_cards[1]).attr('src', "../Common/cards/card.png");
+    $(board_cards[2]).attr('src', "../Common/cards/card.png");
+    $(board_cards[3]).attr('src', "../Common/cards/card.png");
+    $(board_cards[4]).attr('src', "../Common/cards/card.png");
+    $("#pot_value").empty();
+
+
+
+
+
+
 }
 
 function setUiHandStarted()
 {
+    CleanBoard();
     $("#Winners").hide();
     $('.Board').show();
     $("#ready_button").attr("disabled",true);
     $("#buy_tokens_button").attr("disabled",true);
     $("#exit_game_button").attr("disabled",true);
+
 
 }
 
